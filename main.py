@@ -18,7 +18,6 @@ from opts import parser
 
 cudnn.benchmark = True
 
-
 def main():
     global args, device
     args = parser.parse_args()
