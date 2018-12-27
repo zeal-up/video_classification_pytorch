@@ -166,9 +166,9 @@ class Trainer_cls(object):
                 # measure accuracy and record loss
                 prec1, prec5 = accuracy(output.data, target, topk=(1,5))
 
-                val_loss.update(loss.data[0], data.size()[0])
-                val_prec1.update(prec1[0], data.size()[0])
-                val_prec5.update(prec5[0], data.size()[0])
+                val_loss.update(loss.item(), data.size()[0])
+                val_prec1.update(prec1.item(), data.size()[0])
+                val_prec5.update(prec5.item(), data.size()[0])
 
             self.viz.append_loss(val_loss.avg, epoch, win_name='loss_win', id='val_loss')
             self.viz.append_acc(val_prec1.avg, epoch, win_name='acc_win', id='val_prec1')

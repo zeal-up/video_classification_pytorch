@@ -41,7 +41,7 @@ def main():
     if args.modality == 'RGB':
         data_length = 1
     elif args.modality == 'Flow':
-        data_length = 5
+        data_length = 10
 
     # model definition & configeration parameters
     model = TSN(num_class, args.num_segments, args.modality,
