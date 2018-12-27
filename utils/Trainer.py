@@ -81,7 +81,7 @@ class Trainer_cls(object):
                         train_loss.update(loss.item(), data.size()[0])
 
                         print('Epoch {}: {}/{}  |train_loss:{:.4f}  |train_prec1:{:.4F}     |train_prec5:{:.4f}'.\
-                            format(epoch, batch, len(self.train_loader), loss.item(), train_prec1.val, train_prec5))
+                            format(epoch, batch, len(self.train_loader), loss.item(), train_prec1.val, train_prec5.val))
                         x_axis = round(epoch+batch/len(self.train_loader), 2)
                         self.viz.append_loss(loss.item(), x_axis, win_name='loss_win', id='train_loss')
                         self.viz.append_acc(train_prec1.val, x_axis, win_name='acc_win', id='train_prec1')
