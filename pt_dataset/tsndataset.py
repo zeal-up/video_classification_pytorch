@@ -116,10 +116,10 @@ class TSNDataSet(data.Dataset):
 
     def _load_image(self, class_name, idx):
         if self.modality == 'RGB':
-            return [Image.open(os.path.join(self.root, 'jpegs_256', class_name, 'frame{:5d}.jpg'.format(idx))).convert('RGB')]
+            return [Image.open(os.path.join(self.root, 'jpegs_256', class_name, 'frame{:05d}.jpg'.format(idx))).convert('RGB')]
         elif self.modality == 'Flow':
-            x_img = Image.open(os.path.join(self.root, 'tvl1_flow/u', class_name, 'frame{:5d}.jpg'.format(idx))).convert('L')
-            y_img = Image.open(os.path.join(self.root, 'tvl1_flow/v', class_name, 'frame{:5d}.jpg'.format(idx))).convert('L')
+            x_img = Image.open(os.path.join(self.root, 'tvl1_flow/u', class_name, 'frame{:05d}.jpg'.format(idx))).convert('L')
+            y_img = Image.open(os.path.join(self.root, 'tvl1_flow/v', class_name, 'frame{:05d}.jpg'.format(idx))).convert('L')
 
             return [x_img, y_img]
 
