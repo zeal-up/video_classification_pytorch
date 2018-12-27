@@ -89,7 +89,7 @@ class Trainer_cls(object):
 
                 # log for one epoch
                 self.viz.append_text(
-                    'Epoch:{}<br>===='
+                    'Epoch:{}====<br>'
                     'Datatime:{:.4f}<br>'
                     'Batchtime:{:.4f}<br>'
                     'TrainLoss:{:.4f}<br>'
