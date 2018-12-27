@@ -48,6 +48,7 @@ class Trainer_cls(object):
         batch_time = AverageMeter()
         data_time = AverageMeter()
         end = time.time()
+        self.model.train()
         try:
             for epoch in range(nepochs):
                 # self.model.train()
