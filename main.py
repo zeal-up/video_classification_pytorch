@@ -27,7 +27,7 @@ def main():
     # visdom
     viz = Visdom_Plot(port=args.visdom_port, env_name=args.visdom_name)
     args_text = str(vars(args))
-    viz.append_text(args_text.replace(', \'', '\n '), win_name='args_win')
+    viz.append_text(args_text.replace(', \'', '<br>\''), win_name='args_win')
 
     if args.dataset == 'UCF101':
         num_class = 101
