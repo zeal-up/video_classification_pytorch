@@ -89,13 +89,13 @@ class Trainer_cls(object):
 
                 # log for one epoch
                 self.viz.append_text(
-                    'Epoch:{}\n'
-                    'Datatime:{:.4f}\n'
-                    'Batchtime:{:.4f}\n'
-                    'TrainLoss:{:.4f}\n'
-                    'TrainPrec1:{:4f}\n'
-                    'TrainPrec5:{:4f}\n'.format(
-                        epoch, data_time.avg, batch_time.avg, 
+                    'Epoch:{}<br>===='
+                    'Datatime:{:.4f}<br>'
+                    'Batchtime:{:.4f}<br>'
+                    'TrainLoss:{:.4f}<br>'
+                    'TrainPrec1:{:4f}<br>'
+                    'TrainPrec5:{:4f}<br>'.format(
+                        epoch+1, data_time.avg, batch_time.avg, 
                         train_loss.avg, train_prec1.avg, train_prec5.avg
                     ),
                     append=False
@@ -190,9 +190,9 @@ class Trainer_cls(object):
         if is_best:
             file_name = os.path.join(path, 'best_model.pth.tar')
             torch.save(save_state, file_name)
-            self.viz.append_text('save best_model:\n'
-                                'Epoch:{:03d}\n'
-                                'acc:{:.4f}\n'.format(epoch, acc), win_name='save_information')
+            self.viz.append_text('save best_model:<br>'
+                                'Epoch:{:03d}<br>'
+                                'acc:{:.4f}<br>'.format(epoch, acc), win_name='save_information')
 
 
 
