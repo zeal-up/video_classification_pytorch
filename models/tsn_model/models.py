@@ -2,7 +2,7 @@ from torch import nn
 
 from .basic_ops import ConsensusModule, Identity
 from utils.transforms import *
-from torch.nn.init import normal, constant
+from torch.nn.init import normal_, constant_
 
 class TSN(nn.Module):
     def __init__(self, num_class, num_segments, modality,
@@ -69,11 +69,11 @@ TSN Configurations:
 
         std = 0.001
         if self.new_fc is None:
-            normal(getattr(self.base_model, self.base_model.last_layer_name).weight, 0, std)
-            constant(getattr(self.base_model, self.base_model.last_layer_name).bias, 0)
+            normal_(getattr(self.base_model, self.base_model.last_layer_name).weight, 0, std)
+            constant_(getattr(self.base_model, self.base_model.last_layer_name).bias, 0)
         else:
-            normal(self.new_fc.weight, 0, std)
-            constant(self.new_fc.bias, 0)
+            normal_(self.new_fc.weight, 0, std)
+            constant_(self.new_fc.bias, 0)
         return feature_dim
 
     def _prepare_base_model(self, base_model):
