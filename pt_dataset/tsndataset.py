@@ -12,13 +12,13 @@ def read_list(root, split, train):
     if train:
         with open(trainlist_path, 'r') as f:
             for line in f:
-                list = [line.strip().split(' ')]
+                list = line.strip().split(' ')
                 train_list.append(list)
         return train_list
     else:
         with open(testlist_path, 'r') as f:
             for line in f:
-                list = [line.strip().split(' ')]
+                list = line.strip().split(' ')
                 test_list.append(list)
         return test_list
 
