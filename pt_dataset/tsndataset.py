@@ -112,7 +112,7 @@ class TSNDataSet(data.Dataset):
                     p += 1
 
         process_data = self.transform(images)
-        return process_data, record[3]
+        return process_data, record[2]
 
     def _load_image(self, class_name, idx):
         if self.modality == 'RGB':
