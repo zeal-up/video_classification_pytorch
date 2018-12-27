@@ -191,7 +191,7 @@ class Trainer_cls(object):
             file_name = os.path.join(path, 'best_model.pth.tar')
             torch.save(save_state, file_name)
             self.viz.append_text('save best_model:\n'
-                                'Epoch:{:.03d}\n'
+                                'Epoch:{:03d}\n'
                                 'acc:{:.4f}\n'.format(epoch, acc), win_name='save_information')
 
 
