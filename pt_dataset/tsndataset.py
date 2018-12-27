@@ -79,11 +79,11 @@ class TSNDataSet(data.Dataset):
         # test_data = {[path, num_frames]}
 
         # store num_class
-        if dataset == 'ucf101':
+        if dataset == 'UCF101':
             self.num_class = 101
-        elif dataset == 'hmdb51':
+        elif dataset == 'HMDB51':
             self.num_class = 51
-        elif dataset == 'kinetics':
+        elif dataset == 'KINETICS':
             self.num_class = 400
         else:
             raise ValueError('Unknown dataset ' + dataset)
