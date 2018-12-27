@@ -38,8 +38,8 @@ parser.add_argument('--visdom-name', default='tsn_01', type=str)
 parser.add_argument('--visdom-port', default=8197, type=int)
 
 # ========================= Runtime Configs ==========================
-# parser.add_argument('-j', '--workers', default=4, type=int, metavar='N',
-#                     help='number of data loading workers (default: 4)')
+parser.add_argument('-j', '--workers', default=4, type=int, metavar='N',
+                    help='number of data loading workers (default: 4)')
 parser.add_argument('--resume', default='', type=str, metavar='PATH',
                     help='path to latest checkpoint (default: none)')
 # parser.add_argument('-e', '--evaluate', dest='evaluate', action='store_true',
