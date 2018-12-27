@@ -1,6 +1,6 @@
 import argparse
 parser = argparse.ArgumentParser(description="PyTorch implementation of Temporal Segment Networks")
-parser.add_argument('--dataset', type=str, default='ucf101', choices=['ucf101', 'hmdb51', 'kinetics'])
+parser.add_argument('--dataset', type=str, default='UCF101', choices=['UCF101', 'HMDB51', 'KINETICS'])
 parser.add_argument('--modality', type=str, default='RGB', choices=['RGB', 'Flow', 'RGBDiff'])
 parser.add_argument('--split', type=int, default=1, choices=[1, 2, 3])
 

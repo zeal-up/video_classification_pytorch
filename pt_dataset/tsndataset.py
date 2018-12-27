@@ -63,7 +63,7 @@ class TSNDataSet(data.Dataset):
                             trainlist03.txt
             HMDB51->
     '''
-    def __init__(self, root='./videos_dataset', num_segments=3, dataset='ucf101', new_length=1, 
+    def __init__(self, root='./videos_dataset', num_segments=3, dataset='UCF101', new_length=1, 
                 modality='RGB', transform=None, random_shift=True, split=1, train=True):
         super().__init__()
 
