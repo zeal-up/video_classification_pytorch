@@ -29,11 +29,11 @@ def main():
     args_text = str(vars(args))
     viz.append_text(args_text.replace(', \'', '\n '), win_name='args_win')
 
-    if args.dataset == 'ucf101':
+    if args.dataset == 'UCF101':
         num_class = 101
-    elif args.dataset == 'hmdb51':
+    elif args.dataset == 'HMDB51':
         num_class = 51
-    elif args.dataset == 'kinetics':
+    elif args.dataset == 'KINETICS':
         num_class = 400
     else:
         raise ValueError('Unknown dataset ' + args.dataset)
