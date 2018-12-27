@@ -108,7 +108,7 @@ class TSNDataSet(data.Dataset):
             for i in range(self.new_length):
                 seg_imgs = self._load_image(class_name, p)
                 images.extend(seg_imgs)
-                if p < record.num_frames:
+                if p < record[1]:
                     p += 1
 
         process_data = self.transform(images)
