@@ -50,7 +50,7 @@ class Trainer_cls(object):
         end = time.time()
         try:
             for epoch in range(nepochs):
-                self.model.train()
+                # self.model.train()
                 for batch, batch_data in enumerate(self.train_loader):
                     if loader_fn is not None:
                         data, target = loader_fn(batch_data)
@@ -108,7 +108,8 @@ class Trainer_cls(object):
 
                 # evaluate on validation set
                 if (epoch + 1) % val_interval == 0 or epoch == nepochs - 1:
-                    val_prec1 = self.validate(test_loader, epoch=epoch+1, loader_fn=loader_fn)                
+                    val_prec1 = self.validate(test_loader, epoch=epoch+1, loader_fn=loader_fn)          
+                    self.model.train()      
 
                     # remember best acc and save checkpoint
                     is_best = val_prec1 > self.best_val_acc
@@ -149,10 +150,10 @@ class Trainer_cls(object):
         val_prec1 = AverageMeter()
         val_prec5 = AverageMeter()
         val_loss = AverageMeter()
-
+        self.model.eval()
         with torch.no_grad():
             for batch_data in test_loader:
-                self.model.eval()
+                
                 if loader_fn is not None:
                     data, target = loader_fn(batch_data)
                 else:
