@@ -107,7 +107,7 @@ TSN Configurations:
         elif 'inception' in base_model:
             import pretrainedmodels 
             self.base_model = pretrainedmodels.__dict__[base_model](num_classes=1000, pretrained='imagenet')
-            self.base_model.last_layer_name = 'classif'
+            self.base_model.last_layer_name = 'last_linear'
             self.input_size = 299
             self.input_mean = [0.5]
             self.input_std = [0.5]
