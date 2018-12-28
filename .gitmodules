@@ -1,0 +1,3 @@
+[submodule "models/model_zoo"]
+	path = models/model_zoo
+	url = https://github.com/yjxiong/tensorflow-model-zoo.torch.git
