@@ -92,7 +92,7 @@ TSN Configurations:
                 self.input_mean = [0.485, 0.456, 0.406] + [0] * 3 * self.new_length
                 self.input_std = self.input_std + [np.mean(self.input_std) * 2] * 3 * self.new_length
         elif base_model == 'BNInception':
-            import models.tf_model_zoo as tf_model_zoo
+            import models.model_zoo as tf_model_zoo
             self.base_model = getattr(tf_model_zoo, base_model)()
             self.base_model.last_layer_name = 'fc'
             self.input_size = 224
@@ -105,7 +105,7 @@ TSN Configurations:
                 self.input_mean = self.input_mean * (1 + self.new_length)
 
         elif 'inception' in base_model:
-            import models.tf_model_zoo as tf_model_zoo
+            import models.model_zoo as tf_model_zoo
             self.base_model = getattr(tf_model_zoo, base_model)()
             self.base_model.last_layer_name = 'classif'
             self.input_size = 299
