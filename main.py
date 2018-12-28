@@ -56,7 +56,7 @@ def main():
     train_augmentation = model.get_augmentation()
 
     model = torch.nn.DataParallel(model)
-    
+     
     if args.no_partialbn:
         model.module.partialBN(False)
     else:
