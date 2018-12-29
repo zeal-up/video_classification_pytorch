@@ -77,8 +77,8 @@ class Trainer_cls(object):
                     # measure accuracy and record loss
                     if batch % self.log_interval == 0:
                         prec1, prec5 = accuracy(output.data, target, topk=(1,5))
-                        train_prec1.update(prec1[0], data.size()[0])
-                        train_prec5.update(prec5[0], data.size()[0])
+                        train_prec1.update(prec1.item(), data.size()[0])
+                        train_prec5.update(prec5.item(), data.size()[0])
                         train_loss.update(loss.item(), data.size()[0])
 
                         print('Epoch {}: {}/{}  |train_loss:{:.4f}  |train_prec1:{:.4F}     |train_prec5:{:.4f}'.\
