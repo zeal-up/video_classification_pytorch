@@ -1,6 +1,3 @@
-[submodule "models/model_zoo"]
-	path = models/model_zoo
-	url = https://github.com/yjxiong/tensorflow-model-zoo.torch.git
 [submodule "models/pretrained-models.pytorch"]
 	path = models/pretrained-models.pytorch
 	url = https://github.com/Cadene/pretrained-models.pytorch.git
