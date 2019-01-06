@@ -78,6 +78,9 @@ class Kinetics(data.Dataset):
         
         return video, label
 
+    def __len__(self):
+        return len(self.data_list)
+
     def _get_indices(self, data_info):
         num_frames = data_info['num_frames']
         if num_frames <= self.sample_frames:
