@@ -36,7 +36,7 @@ class GroupRandomCrop(object):
 
 class GroupCenterCrop(object):
     def __init__(self, size):
-        self.worker = torchvision.transforms.CenterCrop(size)
+        self.worker = torchvision.transforms.CenterCrop(size) 
 
     def __call__(self, img_group):
         return [self.worker(img) for img in img_group]
@@ -283,6 +283,21 @@ class ToTorchFormatTensor(object):
             # yikes, this transpose takes 80% of the loading time/CPU
             img = img.transpose(0, 1).transpose(0, 2).contiguous()
         return img.float().div(255) if self.div else img.float()
+
+class GroupStackToTensor(object):
+    '''Convert a list of PIL image or numpy.ndarray(HxWxC) in the range[0, 255] to a tensor of shape (C x T x H x W)'''
+    def __init__(self):
+        return
+    def __call__(self, video):
+        video_tensor = []
+        for img in video:
+            img = torchvision.transforms.ToTensor(img)
+            video_tensor.append(img)
+
+        video_tensor = torch.stack(video_tensor, 0).permute(1, 0, 2, 3).contiguous()
+        # C x T x H x W
+
+        return video_tensor
 
 
 class IdentityTransform(object):

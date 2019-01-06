@@ -21,6 +21,7 @@ class Trainer_cls(object):
 
 
         self.best_val_acc = 0
+        self.best_val_loss = 1e5
 
 
 
@@ -109,13 +110,14 @@ class Trainer_cls(object):
 
                 # evaluate on validation set
                 if (epoch + 1) % val_interval == 0 or epoch == nepochs - 1:
-                    val_prec1 = self.validate(test_loader, epoch=epoch+1, loader_fn=loader_fn)          
+                    val_prec1, val_loss = self.validate(test_loader, epoch=epoch+1, loader_fn=loader_fn)          
                     self.model.train()      
 
                     # remember best acc and save checkpoint
                     is_best = val_prec1 > self.best_val_acc
                     self.best_val_acc = max(val_prec1, self.best_val_acc)
                     self._checkpoint(epoch+1, val_prec1, is_best, path=saved_path)
+                    self.best_val_loss = min(self.best_val_loss, val_loss)
 
                 # adjust learning rate
                 if lr_scheduler is not None:
@@ -178,7 +180,7 @@ class Trainer_cls(object):
             print('Epoch {} ||val_loss:{:.4f} |val_prec1:{:.4f} |val_prec5:{:.4f}'.\
                     format(epoch, val_loss.avg, val_prec1.avg, val_prec5.avg))
 
-        return val_prec1.avg
+        return val_prec1.avg, val_loss.avg
 
     def _checkpoint(self, epoch, acc, is_best, path='./checkpoint'):
         save_state = {
