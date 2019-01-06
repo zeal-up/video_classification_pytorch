@@ -127,8 +127,9 @@ class Kinetics(data.Dataset):
 
 if __name__ == '__main__':
     import os, sys
+    sys.path.append(os.path.abspath('..'))
 
-    import ../utils.transforms as ut_transform
+    import utils.transforms as ut_transform
     train_set = Kinetics(transform=ut_transform.GroupStackToTensor())
     print('length of train dataset is :', len(train_set))
     print('first data size is :', train_set[0][0].size())
