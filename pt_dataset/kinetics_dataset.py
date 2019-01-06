@@ -127,7 +127,7 @@ class Kinetics(data.Dataset):
 
 if __name__ == '__main__':
     import os, sys
-    sys.path.append(os.path.abspath('..'))
+    sys.path.append(os.path.abspath('.'))
     print(sys.path)
 
     import utils.transforms as ut_transform
