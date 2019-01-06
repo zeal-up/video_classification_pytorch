@@ -126,7 +126,9 @@ class Kinetics(data.Dataset):
         return video
 
 if __name__ == '__main__':
-    import utils.transforms as ut_transform
+    import os, sys
+
+    import ..utils.transforms as ut_transform
     train_set = Kinetics(transform=ut_transform.GroupStackToTensor())
     print('length of train dataset is :', len(train_set))
-    print('first data size is :', train_set[0].size())
+    print('first data size is :', train_set[0][0].size())
