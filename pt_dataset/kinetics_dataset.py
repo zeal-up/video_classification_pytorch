@@ -70,9 +70,10 @@ class Kinetics(data.Dataset):
         else:
             frame_indices = self._get_indices(data)
 
-        print(frame_indices)
+        # print(frame_indices)
         video = self._frames_loader(path, frame_indices) 
         # T, C, H, W
+        print(len(video))
         
         if self.transform is not None:
             video = self.transform(video)
