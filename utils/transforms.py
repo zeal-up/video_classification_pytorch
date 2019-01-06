@@ -291,7 +291,7 @@ class GroupStackToTensor(object):
     def __call__(self, video):
         video_tensor = []
         for img in video:
-            img = torchvision.transforms.ToTensor(img)
+            img = torchvision.transforms.ToTensor()(img)
             video_tensor.append(img)
 
         video_tensor = torch.stack(video_tensor, 0).permute(1, 0, 2, 3).contiguous()
