@@ -20,7 +20,9 @@ cudnn.benchmark = True
 
 args = parser.parse_args()
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
-
+torch.manual_seed(10)
+torch.cuda.manual_seed(10)
+np.random.seed(10)
 
 def main():
     global args, device
