@@ -74,7 +74,7 @@ class Kinetics(data.Dataset):
         video = self._frames_loader(path, frame_indices) 
         # T, C, H, W
         print(len(video))
-        
+
         if self.transform is not None:
             video = self.transform(video)
         
@@ -119,8 +119,7 @@ class Kinetics(data.Dataset):
                 with open(image_path, 'rb') as f:
                     with Image.open(f) as img:
                         img = img.convert('RGB')
-
-                video.append(img)
+                        video.append(img)
 
             else:
                 assert False, 'something in frames path'
