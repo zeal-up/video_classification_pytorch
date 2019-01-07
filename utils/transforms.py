@@ -285,7 +285,7 @@ class ToTorchFormatTensor(object):
         return img.float().div(255) if self.div else img.float()
 
 class GroupStackToTensor(object):
-    '''Convert a list of PIL image or numpy.ndarray(HxWxC) in the range[0, 255] to a tensor of shape (C x T x H x W)'''
+    '''Convert a list of PIL image or numpy.ndarray(HxWxC) in the range[0, 255] to a tensor of shape (C x T x H x W) in the range [0, 1]'''
     def __init__(self):
         return
     def __call__(self, video):
