@@ -328,6 +328,9 @@ class InceptionI3d(nn.Module):
         if self._spatial_squeeze:
             logits = x.squeeze(3).squeeze(3)
         # logits is batch X time X classes, which is what we want to work with
+
+        if not self.train: # average over temporal when evaluation
+            logits = torch.mean(logits, 2)
         return logits
         
 
