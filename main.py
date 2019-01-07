@@ -39,6 +39,7 @@ def main():
         import models.I3D.config as config
 
     model = config.model
+    model.to(device)
     train_loader = config.train_loader
     val_loader = config.val_loader
 
@@ -48,8 +49,8 @@ def main():
     lr_schedular = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer)
 
     
+    print('prepare finished, start training')
     
- 
     # train
     trainer = Trainer_cls(
         model,
