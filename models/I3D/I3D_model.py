@@ -330,8 +330,8 @@ class InceptionI3d(nn.Module):
             logits = x.squeeze(3).squeeze(3)
         # logits is batch X time X classes, which is what we want to work with
 
-        if not self.train: # average over temporal when evaluation
-            logits = torch.mean(logits, 2)
+        #### max-pooling when classification
+        logits = torch.max(logits, 2)[0]
         return logits
         
 
