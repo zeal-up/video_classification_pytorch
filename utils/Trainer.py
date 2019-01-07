@@ -52,6 +52,7 @@ class Trainer_cls(object):
         self.model.train()
         try:
             for epoch in range(nepochs):
+                print('epoch{} start trainging'.format(epoch))
                 # self.model.train()
                 for batch, batch_data in enumerate(self.train_loader):
                     if loader_fn is not None:
