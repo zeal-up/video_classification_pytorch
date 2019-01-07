@@ -89,6 +89,7 @@ class Kinetics(data.Dataset):
             indices = list(range(1, num_frames+1, 1))
             while len(indices) < self.sample_frames:
                 indices.extend(range(1, num_frames+1, 1))
+                print('looping video frames')
 
         else:
             offset = random.choice(range(1, num_frames-self.sample_frames+1, 1))
