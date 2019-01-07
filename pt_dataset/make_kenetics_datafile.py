@@ -62,7 +62,8 @@ def make_data_file(root_path, split):
             log['class_name'] = class_name
             log['num_frames'] = num_frames
 
-            data.append(log)
+            if num_frames != 0:
+                data.append(log)
 
     with open(os.path.join(root_path, split+'_datalist.json'), 'w') as f:
         json.dump(data, f)
