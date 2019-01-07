@@ -92,7 +92,7 @@ class Kinetics(data.Dataset):
 
         else:
             offset = random.choice(range(1, num_frames-self.sample_frames+1, 1))
-            indices = list(range(offset, self.sample_frames+1, 1))
+            indices = list(range(offset, offset+self.sample_frames, 1))
 
         return indices[:self.sample_frames]
 
