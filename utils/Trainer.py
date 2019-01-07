@@ -34,7 +34,8 @@ class Trainer_cls(object):
                 lambda batch_data : batch_data[0], batch_data[1]
         '''
 
-        self.log_interval = max(int(len(self.train_loader)/100) , 10)
+        # self.log_interval = max(int(len(self.train_loader)/100) , 10)
+        self.log_interval = 1
         # evaluation 100 times per epoch
 
         try:
