@@ -147,7 +147,7 @@ if __name__ == '__main__':
     ut_transforms.GroupRandomCrop(224), # randomlly crop a 224x224 patch
     ut_transforms.GroupRandomHorizontalFlip(),
     ut_transforms.GroupStackToTensor(),
-    I3Dscale()
+    # I3Dscale()
     ])
 
     train_set = Kinetics(transform=train_transforms)
