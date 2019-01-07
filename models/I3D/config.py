@@ -1,6 +1,7 @@
 import torch
 from torch.utils.data import DataLoader
 import torchvision.transforms as T
+import torch.nn as nn
 
 import utils.transforms as ut_transforms 
 from pt_dataset.kinetics_dataset import Kinetics
@@ -35,6 +36,8 @@ model = InceptionI3d(400, in_channels=3) # only RGB model avaliable right now
 if pretrained:
     model.load_state_dict(torch.load('./models/I3D/rgb_imagenet.pt'))
     model.replace_logits(num_class)
+
+model = nn.DataParallel(model)
 
 
 train_transforms = T.Compose([
