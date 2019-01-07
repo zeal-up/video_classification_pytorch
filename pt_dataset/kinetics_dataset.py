@@ -136,3 +136,4 @@ if __name__ == '__main__':
     train_set = Kinetics(transform=ut_transform.GroupStackToTensor())
     print('length of train dataset is :', len(train_set))
     print('first data size is :', train_set[0][0].size())
+    print('first data is :', train_set[0][0])
