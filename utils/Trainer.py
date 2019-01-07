@@ -35,7 +35,7 @@ class Trainer_cls(object):
         '''
 
         # self.log_interval = max(int(len(self.train_loader)/100) , 10)
-        self.log_interval = 1
+        self.log_interval = 2
         # evaluation 100 times per epoch
 
         try:
