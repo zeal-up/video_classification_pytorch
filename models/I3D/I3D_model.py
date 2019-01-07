@@ -325,6 +325,7 @@ class InceptionI3d(nn.Module):
                 x = self._modules[end_point](x) # use _modules to work with dataparallel
 
         x = self.logits(self.dropout(self.avg_pool(x)))
+        print(x.size())
         if self._spatial_squeeze:
             logits = x.squeeze(3).squeeze(3)
         # logits is batch X time X classes, which is what we want to work with
