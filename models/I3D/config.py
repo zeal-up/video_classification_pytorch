@@ -36,9 +36,9 @@ model = InceptionI3d(400, in_channels=3) # only RGB model avaliable right now
 if pretrained:
     model.load_state_dict(torch.load('./models/I3D/rgb_imagenet.pt'))
     model.replace_logits(num_class)
-else:
-    model.load_state_dict(torch.load('./models/I3D/rgb_imagenet.pt'))
-    model.replace_logits(num_class)
+# else:
+#     model.load_state_dict(torch.load('./models/I3D/rgb_imagenet.pt'))
+#     model.replace_logits(num_class)
 
 model = nn.DataParallel(model)
 
