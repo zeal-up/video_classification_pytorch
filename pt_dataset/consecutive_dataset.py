@@ -178,7 +178,7 @@ class Consecutive(data.Dataset):
                         img = img.convert('RGB')
                         video.append(img)
             else:
-                # print(image_path)
+                print('unexist image path', image_path)
                 assert False, 'something error in frames path'
 
         return video
