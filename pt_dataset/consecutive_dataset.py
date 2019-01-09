@@ -205,8 +205,8 @@ if __name__ == '__main__':
     import utils.transforms as ut_transforms
     import torchvision.transforms as T
     train_transforms = T.Compose([
-    ut_transforms.GroupScale(256), # resize smaller edge to 256
-    ut_transforms.GroupRandomCrop(224), # randomlly crop a 224x224 patch
+    # ut_transforms.GroupScale(256), # resize smaller edge to 256
+    # ut_transforms.GroupRandomCrop(224), # randomlly crop a 224x224 patch
     # ut_transforms.GroupRandomHorizontalFlip(),
     ut_transforms.GroupStackToTensor(),
     # I3Dscale()
