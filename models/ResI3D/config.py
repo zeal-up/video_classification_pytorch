@@ -46,6 +46,6 @@ model = make_i3dResnet(arch=args.arch, pretrained=False, inflat_mode=1) # only R
 
 model.replace_logits(num_class)
 
-model = nn.DataParallel(model)
+# model = nn.DataParallel(model)
 
 
