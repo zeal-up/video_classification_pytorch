@@ -20,11 +20,86 @@ model_urls = {
 }
 
 
+class Unit3D(nn.Module):
+
+    def __init__(self, in_channels,
+                 output_channels,
+                 kernel_size=(1, 1, 1),
+                 stride=(1, 1, 1),
+                 padding=0,
+                 activation_fn=None,
+                 use_batch_norm=False,
+                 bias=False,
+                 name='unit_3d'):
+        
+        """Initializes Unit3D module."""
+        super(Unit3D, self).__init__()
+        
+        self._output_channels = output_channels
+        self._kernel_shape = kernel_size
+        self._stride = stride
+        self._use_batch_norm = use_batch_norm
+        self._activation_fn = activation_fn
+        self._use_bias = bias
+        self.name = name
+        self.padding = padding
+        
+        self.conv3d = nn.Conv3d(in_channels=in_channels,
+                                out_channels=self._output_channels,
+                                kernel_size=self._kernel_shape,
+                                stride=self._stride,
+                                padding=0, # we always want padding to be 0 here. We will dynamically pad based on input size in forward function
+                                bias=self._use_bias)
+        
+        if self._use_batch_norm:
+            self.bn = nn.BatchNorm3d(self._output_channels, eps=0.001, momentum=0.01)
+
+    def compute_pad(self, dim, s):
+        if s % self._stride[dim] == 0:
+            return max(self._kernel_shape[dim] - self._stride[dim], 0)
+        else:
+            return max(self._kernel_shape[dim] - (s % self._stride[dim]), 0)
+
+            
+    def forward(self, x):
+        # compute 'same' padding
+        (batch, channel, t, h, w) = x.size()
+        #print t,h,w
+        out_t = np.ceil(float(t) / float(self._stride[0]))
+        out_h = np.ceil(float(h) / float(self._stride[1]))
+        out_w = np.ceil(float(w) / float(self._stride[2]))
+        #print out_t, out_h, out_w
+        pad_t = self.compute_pad(0, t)
+        pad_h = self.compute_pad(1, h)
+        pad_w = self.compute_pad(2, w)
+        #print pad_t, pad_h, pad_w
+
+        pad_t_f = pad_t // 2
+        pad_t_b = pad_t - pad_t_f
+        pad_h_f = pad_h // 2
+        pad_h_b = pad_h - pad_h_f
+        pad_w_f = pad_w // 2
+        pad_w_b = pad_w - pad_w_f
+
+        pad = (pad_w_f, pad_w_b, pad_h_f, pad_h_b, pad_t_f, pad_t_b)
+        #print x.size()
+        #print pad
+        x = F.pad(x, pad)
+        #print x.size()        
+
+        x = self.conv3d(x)
+        if self._use_batch_norm:
+            x = self.bn(x)
+        if self._activation_fn is not None:
+            x = self._activation_fn(x)
+        return x
+
+
 def conv3x3(in_planes, out_planes, stride=1, inflat=False):
     """3x3 convolution with padding"""
     kernel_size = [3, 3, 3] if inflat else 3
     padding = [1, 1, 1] if inflat else [0, 1, 1]
-    return nn.Conv3d(in_planes, out_planes, kernel_size=kernel_size, stride=stride,
+    return Unit3D(in_planes, out_planes, kernel_size=kernel_size, stride=stride,
                      padding=padding, bias=False)
 
 
@@ -66,23 +141,23 @@ class Bottleneck(nn.Module):
     def __init__(self, inplanes, planes, stride=1, downsample=None, inflat_mode=0):
         super(Bottleneck, self).__init__()
         if inflat_mode == 0:
-            self.conv1 = nn.Conv3d(inplanes, planes, kernel_size=1, bias=False)
-            self.conv2 = nn.Conv3d(planes, planes, kernel_size=[1, 3, 3], stride=[1, stride, stride],
+            self.conv1 = Unit3D(inplanes, planes, kernel_size=1, bias=False)
+            self.conv2 = Unit3D(planes, planes, kernel_size=[1, 3, 3], stride=[1, stride, stride],
                                 padding=[0, 1, 1], bias=False)
-            self.conv3 = nn.Conv3d(planes, planes * 4, kernel_size=1, bias=False)
+            self.conv3 = Unit3D(planes, planes * 4, kernel_size=1, bias=False)
 
         elif inflat_mode == 1:
-            self.conv1 = nn.Conv3d(inplanes, planes, kernel_size=1, bias=False)
-            self.conv2 = nn.Conv3d(planes, planes, kernel_size=[3, 3, 3], stride=[1, stride, stride],
+            self.conv1 = Unit3D(inplanes, planes, kernel_size=1, bias=False)
+            self.conv2 = Unit3D(planes, planes, kernel_size=[3, 3, 3], stride=[1, stride, stride],
                                    padding=[1, 1, 1], bias=False)
-            self.conv3 = nn.Conv3d(planes, planes * 4, kernel_size=1, bias=False)
+            self.conv3 = Unit3D(planes, planes * 4, kernel_size=1, bias=False)
 
         elif inflat_mode == 2:
-            self.conv1 = nn.Conv3d(inplanes, planes, kernel_size=[3, 1, 1], stride=[1, 1, 1],
+            self.conv1 = Unit3D(inplanes, planes, kernel_size=[3, 1, 1], stride=[1, 1, 1],
                                     padding=[1, 0, 0], bias=False)
-            self.conv2 = nn.Conv3d(planes, planes, kernel_size=[1, 3, 3], stride=[1, stride, stride],
+            self.conv2 = Unit3D(planes, planes, kernel_size=[1, 3, 3], stride=[1, stride, stride],
                                     padding=[0, 1, 1], bias=False)
-            self.conv3 = nn.Conv3d(planes, planes * 4, kernel_size=[3, 1, 1], stride=[1, 1, 1],
+            self.conv3 = Unit3D(planes, planes * 4, kernel_size=[3, 1, 1], stride=[1, 1, 1],
                                     padding=[1, 0, 0], bias=False)
 
         self.bn1 = nn.BatchNorm3d(planes)
@@ -122,7 +197,7 @@ class ResNet(nn.Module):
         self.inflat_mode = inflat_mode
 
         super(ResNet, self).__init__()
-        self.conv1 = nn.Conv3d(3, 64, kernel_size=[5, 7, 7], stride=2, padding=[2, 3, 3],
+        self.conv1 = Unit3D(3, 64, kernel_size=[5, 7, 7], stride=2, padding=[2, 3, 3],
                                bias=False)
         self.bn1 = nn.BatchNorm3d(64)
         self.relu = nn.ReLU(inplace=True)
@@ -139,7 +214,7 @@ class ResNet(nn.Module):
         self.fc = nn.Linear(512 * block.expansion, num_classes)
 
         for m in self.modules():
-            if isinstance(m, nn.Conv3d):
+            if isinstance(m, Unit3D):
                 n = m.kernel_size[0] * m.kernel_size[1] * m.kernel_size[2] * m.out_channels
                 m.weight.data.normal_(0, math.sqrt(2. / n))
             elif isinstance(m, nn.BatchNorm3d):
@@ -150,7 +225,7 @@ class ResNet(nn.Module):
         downsample = None
         if stride != 1 or self.inplanes != planes * block.expansion:
             downsample = nn.Sequential(
-                nn.Conv3d(self.inplanes, planes * block.expansion,
+                Unit3D(self.inplanes, planes * block.expansion,
                           kernel_size=1, stride=[1, stride, stride], bias=False),
                 nn.BatchNorm3d(planes * block.expansion),
             )
