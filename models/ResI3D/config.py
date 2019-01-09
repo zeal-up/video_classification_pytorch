@@ -42,7 +42,7 @@ val_loader = DataLoader(
 
 num_class = train_dataset.num_classes
 
-model = make_i3dResnet(arch=args.arch, pretrained=False, inflat_mode=0) # only RGB model avaliable right now
+model = make_i3dResnet(arch=args.arch, pretrained=False, inflat_mode=1) # only RGB model avaliable right now
 
 model.replace_logits(num_class)
 
