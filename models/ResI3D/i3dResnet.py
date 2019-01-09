@@ -274,8 +274,8 @@ def make_i3dResnet(arch='resnet50', pretrained=True, inflat_mode=0):
     assert arch in ['resnet50', 'resnet101', 'resnet152'], 'illegal architecture'
     model = globals()[arch](pretrained=False, inflat_mode=inflat_mode)
     if pretrained:
-        pretrained_resnet50 = torchvision.models.resnet50(pretrained=True)
-        pretrained_dict = pretrained_resnet50.state_dict()
+        pretrained_resnet = getattr(torchvision.models, arch)(pretrained=True)
+        pretrained_dict = pretrained_resnet.state_dict()
         model_dict = model.state_dict()
         for k,v in model_dict.items():
             if 'conv' in k:
