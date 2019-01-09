@@ -99,7 +99,8 @@ class Consecutive(data.Dataset):
             frame_indices = self._get_clips_indices(data, clips_num)
         else:
             frame_indices = self._get_indices(data)
-
+        
+        assert len(frame_indices) == self.sample_frames//self.interval
         # print(len(frame_indices))
         # print(frame_indices)
         # return len(frame_indices)
@@ -189,11 +190,10 @@ if __name__ == '__main__':
     sys.path.append(os.path.abspath('.'))
     # print(sys.path)
 
-    train_set = Consecutive(dataset='ucf101', interval=2, train=False, test_mode='non_local')
+    train_set = Consecutive(dataset='ucf101', interval=2, train=True, test_mode='non_local')
     print(len(train_set))
     for i in range(len(train_set)):
-        if train_set[i] != 320:
-            print('error, length is', )
+        train_set[i]
 
 
     # class I3Dscale(object):
