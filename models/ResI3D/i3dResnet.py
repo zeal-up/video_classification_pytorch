@@ -202,7 +202,7 @@ class ResNet(nn.Module):
         return x
 
     def replace_logits(self, num_classes):
-        in_channels = self.fc.weight.size()[0]
+        in_channels = self.fc.weight.size()[1]
         self.fc = nn.Linear(in_channels, num_classes)
 
 
