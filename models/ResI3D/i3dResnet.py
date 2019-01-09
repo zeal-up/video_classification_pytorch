@@ -215,7 +215,7 @@ class ResNet(nn.Module):
 
         for m in self.modules():
             if isinstance(m, Unit3D):
-                n = m.kernel_size[0] * m.kernel_size[1] * m.kernel_size[2] * m.out_channels
+                n = m.conv3d.kernel_size[0] * m.conv3d.kernel_size[1] * m.conv3d.kernel_size[2] * m.conv3d.out_channels
                 m.conv3d.weight.data.normal_(0, math.sqrt(2. / n))
             elif isinstance(m, nn.BatchNorm3d):
                 m.weight.data.fill_(1)
