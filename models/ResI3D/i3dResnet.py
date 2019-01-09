@@ -36,8 +36,8 @@ class Unit3D(nn.Module):
         super(Unit3D, self).__init__()
         
         self._output_channels = output_channels
-        self._kernel_shape = kernel_size
-        self._stride = stride
+        self.kernel_size = kernel_size
+        self.stride = stride
         self._use_batch_norm = use_batch_norm
         self._activation_fn = activation_fn
         self._use_bias = bias
@@ -46,8 +46,8 @@ class Unit3D(nn.Module):
         
         self.conv3d = nn.Conv3d(in_channels=in_channels,
                                 out_channels=self._output_channels,
-                                kernel_size=self._kernel_shape,
-                                stride=self._stride,
+                                kernel_size=self.kernel_size,
+                                stride=self.stride,
                                 padding=0, # we always want padding to be 0 here. We will dynamically pad based on input size in forward function
                                 bias=self._use_bias)
         
@@ -55,19 +55,19 @@ class Unit3D(nn.Module):
             self.bn = nn.BatchNorm3d(self._output_channels, eps=0.001, momentum=0.01)
 
     def compute_pad(self, dim, s):
-        if s % self._stride[dim] == 0:
-            return max(self._kernel_shape[dim] - self._stride[dim], 0)
+        if s % self.stride[dim] == 0:
+            return max(self.kernel_size[dim] - self.stride[dim], 0)
         else:
-            return max(self._kernel_shape[dim] - (s % self._stride[dim]), 0)
+            return max(self.kernel_size[dim] - (s % self.stride[dim]), 0)
 
             
     def forward(self, x):
         # compute 'same' padding
         (batch, channel, t, h, w) = x.size()
         #print t,h,w
-        out_t = np.ceil(float(t) / float(self._stride[0]))
-        out_h = np.ceil(float(h) / float(self._stride[1]))
-        out_w = np.ceil(float(w) / float(self._stride[2]))
+        out_t = np.ceil(float(t) / float(self.stride[0]))
+        out_h = np.ceil(float(h) / float(self.stride[1]))
+        out_w = np.ceil(float(w) / float(self.stride[2]))
         #print out_t, out_h, out_w
         pad_t = self.compute_pad(0, t)
         pad_h = self.compute_pad(1, h)
