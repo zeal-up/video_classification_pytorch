@@ -34,7 +34,7 @@ val_dataset = Consecutive(dataset=args.dataset, train=False, interval=2, transfo
 train_loader = DataLoader(
     train_dataset, batch_size=args.batch_size, 
     shuffle=True, num_workers=args.workers,
-    pin_memory=True)
+    pin_memory=True, drop_last=True)
 
 val_loader = DataLoader(
     val_dataset, batch_size=args.batch_size,
