@@ -171,14 +171,14 @@ class Consecutive(data.Dataset):
                 image_path = os.path.join(video_dir_path, 'image_{:05d}.jpg'.format(i))
             elif self.dataset == 'ucf101':
                 image_path = os.path.join(video_dir_path, 'frame{:06d}.jpg'.format(i))
+
             if os.path.exists(image_path):
                 with open(image_path, 'rb') as f:
                     with Image.open(f) as img:
                         img = img.convert('RGB')
                         video.append(img)
-
             else:
-                print(image_path)
+                # print(image_path)
                 assert False, 'something error in frames path'
 
         return video
