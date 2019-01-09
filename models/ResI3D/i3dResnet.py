@@ -198,7 +198,7 @@ class ResNet(nn.Module):
         self.inflat_mode = inflat_mode
 
         super(ResNet, self).__init__()
-        self.conv1 = Unit3D(3, 64, kernel_size=[5, 7, 7], stride=2, padding=[2, 3, 3],
+        self.conv1 = Unit3D(3, 64, kernel_size=[5, 7, 7], stride=[2, 2, 2], padding=[2, 3, 3],
                                bias=False)
         self.bn1 = nn.BatchNorm3d(64)
         self.relu = nn.ReLU(inplace=True)
