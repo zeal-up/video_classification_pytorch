@@ -26,8 +26,8 @@ val_transforms = T.Compose([
     ut_transforms.StackTensor()
 ])
 
-train_dataset = Consecutive(dataset=args.dataset, train=True, transform=train_transforms) #default 64 frames
-val_dataset = Consecutive(dataset=args.dataset, train=False, transform=val_transforms)
+train_dataset = Consecutive(dataset=args.dataset, train=True, interval=2, transform=train_transforms) #default 64 frames
+val_dataset = Consecutive(dataset=args.dataset, train=False, interval=2, transform=val_transforms)
 
 train_loader = DataLoader(
     train_dataset, batch_size=args.batch_size, 
