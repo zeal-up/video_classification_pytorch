@@ -178,7 +178,8 @@ class Consecutive(data.Dataset):
                         video.append(img)
 
             else:
-                assert False, 'something in frames path'
+                print(image_path)
+                assert False, 'something error in frames path'
 
         return video
 
