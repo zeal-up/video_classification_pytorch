@@ -142,16 +142,16 @@ class Bottleneck(nn.Module):
     def __init__(self, inplanes, planes, stride=1, downsample=None, inflat_mode=0):
         super(Bottleneck, self).__init__()
         if inflat_mode == 0:
-            self.conv1 = Unit3D(inplanes, planes, kernel_size=1, bias=False)
+            self.conv1 = Unit3D(inplanes, planes, kernel_size=[1, 1, 1], bias=False)
             self.conv2 = Unit3D(planes, planes, kernel_size=[1, 3, 3], stride=[1, stride, stride],
                                 padding=[0, 1, 1], bias=False)
-            self.conv3 = Unit3D(planes, planes * 4, kernel_size=1, bias=False)
+            self.conv3 = Unit3D(planes, planes * 4, kernel_size=[1, 1, 1], bias=False)
 
         elif inflat_mode == 1:
-            self.conv1 = Unit3D(inplanes, planes, kernel_size=1, bias=False)
+            self.conv1 = Unit3D(inplanes, planes, kernel_size=[1, 1, 1], bias=False)
             self.conv2 = Unit3D(planes, planes, kernel_size=[3, 3, 3], stride=[1, stride, stride],
                                    padding=[1, 1, 1], bias=False)
-            self.conv3 = Unit3D(planes, planes * 4, kernel_size=1, bias=False)
+            self.conv3 = Unit3D(planes, planes * 4, kernel_size=[1, 1, 1], bias=False)
 
         elif inflat_mode == 2:
             self.conv1 = Unit3D(inplanes, planes, kernel_size=[3, 1, 1], stride=[1, 1, 1],
@@ -227,7 +227,7 @@ class ResNet(nn.Module):
         if stride != 1 or self.inplanes != planes * block.expansion:
             downsample = nn.Sequential(
                 Unit3D(self.inplanes, planes * block.expansion,
-                          kernel_size=1, stride=[1, stride, stride], bias=False),
+                          kernel_size=[1, 1, 1], stride=[1, stride, stride], bias=False),
                 nn.BatchNorm3d(planes * block.expansion),
             )
 
