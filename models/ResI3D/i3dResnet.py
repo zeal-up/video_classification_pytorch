@@ -20,48 +20,19 @@ model_urls = {
     'resnet152': 'https://download.pytorch.org/models/resnet152-b121ed2d.pth',
 }
 
-
-class Unit3D(nn.Module):
-
-    def __init__(self, in_channels,
-                 output_channels,
-                 kernel_size=(1, 1, 1),
-                 stride=(1, 1, 1),
-                 padding=0,
-                 activation_fn=None,
-                 use_batch_norm=False,
-                 bias=False,
-                 name='unit_3d'):
-        
-        """Initializes Unit3D module."""
-        super(Unit3D, self).__init__()
-        
-        self.out_channels = output_channels
-        self.kernel_size = kernel_size
-        self.stride = stride
-        self._use_batch_norm = use_batch_norm
-        self._activation_fn = activation_fn
-        self._use_bias = bias
-        self.name = name
-        self.padding = padding
-        
-        self.conv3d = nn.Conv3d(in_channels=in_channels,
-                                out_channels=self.out_channels,
-                                kernel_size=self.kernel_size,
-                                stride=self.stride,
-                                padding=0, # we always want padding to be 0 here. We will dynamically pad based on input size in forward function
-                                bias=self._use_bias)
-        
-        if self._use_batch_norm:
-            self.bn = nn.BatchNorm3d(self.out_channels, eps=0.001, momentum=0.01)
+class Unit3D(nn.Conv3d):
+    def __init__(self, in_channels, out_channels, kernel_size, stride=1,
+                 padding=0, dilation=1, groups=1, bias=True): 
+        super().__init__(in_channels, out_channels, kernel_size, stride,
+                         0, dilation, groups, bias)# padding will always be 0, the padding will be computed in forward()
 
     def compute_pad(self, dim, s):
         if s % self.stride[dim] == 0:
             return max(self.kernel_size[dim] - self.stride[dim], 0)
         else:
             return max(self.kernel_size[dim] - (s % self.stride[dim]), 0)
-
-            
+    
+          
     def forward(self, x):
         # compute 'same' padding
         (batch, channel, t, h, w) = x.size()
@@ -88,12 +59,84 @@ class Unit3D(nn.Module):
         x = F.pad(x, pad)
         #print x.size()        
 
-        x = self.conv3d(x)
-        if self._use_batch_norm:
-            x = self.bn(x)
-        if self._activation_fn is not None:
-            x = self._activation_fn(x)
+        x = super().forward(x)
+
         return x
+
+
+# class Unit3D(nn.Module):
+
+#     def __init__(self, in_channels,
+#                  output_channels,
+#                  kernel_size=(1, 1, 1),
+#                  stride=(1, 1, 1),
+#                  padding=0,
+#                  activation_fn=None,
+#                  use_batch_norm=False,
+#                  bias=False,
+#                  name='unit_3d'):
+        
+#         """Initializes Unit3D module."""
+#         super(Unit3D, self).__init__()
+        
+#         self.out_channels = output_channels
+#         self.kernel_size = kernel_size
+#         self.stride = stride
+#         self._use_batch_norm = use_batch_norm
+#         self._activation_fn = activation_fn
+#         self._use_bias = bias
+#         self.name = name
+#         self.padding = padding
+        
+#         self.conv3d = nn.Conv3d(in_channels=in_channels,
+#                                 out_channels=self.out_channels,
+#                                 kernel_size=self.kernel_size,
+#                                 stride=self.stride,
+#                                 padding=0, # we always want padding to be 0 here. We will dynamically pad based on input size in forward function
+#                                 bias=self._use_bias)
+        
+#         if self._use_batch_norm:
+#             self.bn = nn.BatchNorm3d(self.out_channels, eps=0.001, momentum=0.01)
+
+#     def compute_pad(self, dim, s):
+#         if s % self.stride[dim] == 0:
+#             return max(self.kernel_size[dim] - self.stride[dim], 0)
+#         else:
+#             return max(self.kernel_size[dim] - (s % self.stride[dim]), 0)
+
+            
+#     def forward(self, x):
+#         # compute 'same' padding
+#         (batch, channel, t, h, w) = x.size()
+#         #print t,h,w
+#         out_t = np.ceil(float(t) / float(self.stride[0]))
+#         out_h = np.ceil(float(h) / float(self.stride[1]))
+#         out_w = np.ceil(float(w) / float(self.stride[2]))
+#         #print out_t, out_h, out_w
+#         pad_t = self.compute_pad(0, t)
+#         pad_h = self.compute_pad(1, h)
+#         pad_w = self.compute_pad(2, w)
+#         #print pad_t, pad_h, pad_w
+
+#         pad_t_f = pad_t // 2
+#         pad_t_b = pad_t - pad_t_f
+#         pad_h_f = pad_h // 2
+#         pad_h_b = pad_h - pad_h_f
+#         pad_w_f = pad_w // 2
+#         pad_w_b = pad_w - pad_w_f
+
+#         pad = (pad_w_f, pad_w_b, pad_h_f, pad_h_b, pad_t_f, pad_t_b)
+#         #print x.size()
+#         #print pad
+#         x = F.pad(x, pad)
+#         #print x.size()        
+
+#         x = self.conv3d(x)
+#         if self._use_batch_norm:
+#             x = self.bn(x)
+#         if self._activation_fn is not None:
+#             x = self._activation_fn(x)
+#         return x
 
 
 def conv3x3(in_planes, out_planes, stride=1, inflat=False):
@@ -216,8 +259,8 @@ class ResNet(nn.Module):
 
         for m in self.modules():
             if isinstance(m, Unit3D):
-                n = m.conv3d.kernel_size[0] * m.conv3d.kernel_size[1] * m.conv3d.kernel_size[2] * m.conv3d.out_channels
-                m.conv3d.weight.data.normal_(0, math.sqrt(2. / n))
+                n = m.kernel_size[0] * m.kernel_size[1] * m.kernel_size[2] * m.out_channels
+                m.weight.data.normal_(0, math.sqrt(2. / n))
             elif isinstance(m, nn.BatchNorm3d):
                 m.weight.data.fill_(1)
                 m.bias.data.zero_()
