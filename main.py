@@ -14,7 +14,9 @@ from utils.Trainer import Trainer_cls
 from utils.Plot import Visdom_Plot
 from opts import parser
 
-cudnn.benchmark = True
+
+torch.backends.cudnn.enabled = True
+torch.backends.cudnn.benchmark = True
 
 args = parser.parse_args()
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')

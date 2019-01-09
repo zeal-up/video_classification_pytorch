@@ -10,7 +10,7 @@ import main
 args = main.args
 
 torch.backends.cudnn.enabled = True
-torch.backends.cudnn.benchmark = False # 
+torch.backends.cudnn.benchmark = False # if it sets to Ture, the cuda will export error
 
 # 暂时只支持RGB frames 和kinetics\ucf101数据集
 
