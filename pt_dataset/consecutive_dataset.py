@@ -195,7 +195,7 @@ if __name__ == '__main__':
     train_set = Consecutive(dataset='ucf101', interval=2, train=False, test_mode='non_local')
     print(len(train_set))
     for i in range(len(train_set)):
-        print(i)
+        # print(i)
         if train_set[i] != 320 :
             print('error for length =', train_set[i])
             assert False, 'error'
