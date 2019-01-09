@@ -9,8 +9,7 @@ from models.ResI3D.i3dResnet import make_i3dResnet
 import main
 args = main.args
 
-torch.backends.cudnn.enabled = True
-torch.backends.cudnn.benchmark = False # if it sets to Ture, the cuda will export error
+
 
 # 暂时只支持RGB frames 和kinetics\ucf101数据集
 
@@ -45,7 +44,7 @@ val_loader = DataLoader(
 
 num_class = train_dataset.num_classes
 
-model = make_i3dResnet(arch=args.arch, pretrained=False, inflat_mode=2) # only RGB model avaliable right now
+model = make_i3dResnet(arch=args.arch, pretrained=False, inflat_mode=0) # only RGB model avaliable right now
 
 model.replace_logits(num_class)
 
