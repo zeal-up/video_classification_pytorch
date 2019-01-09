@@ -42,14 +42,9 @@ val_loader = DataLoader(
 
 num_class = train_dataset.num_classes
 
-model = make_i3dResnet(arch=args.arch, pretrained=True, inflat_mode=0) # only RGB model avaliable right now
-pretrained = False
-if pretrained:
-    model.load_state_dict(torch.load('./models/I3D/rgb_imagenet.pt'))
-    model.replace_logits(num_class)
-else:
-    # model.load_state_dict(torch.load('./models/I3D/rgb_imagenet.pt'))
-    model.replace_logits(num_class)
+model = make_i3dResnet(arch=args.arch, pretrained=False, inflat_mode=0) # only RGB model avaliable right now
+
+model.replace_logits(num_class)
 
 model = nn.DataParallel(model)
 
