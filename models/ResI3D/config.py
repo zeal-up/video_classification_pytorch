@@ -9,6 +9,9 @@ from models.ResI3D.i3dResnet import make_i3dResnet
 import main
 args = main.args
 
+torch.backends.cudnn.enabled = True
+torch.backends.cudnn.benchmark = False # 
+
 # 暂时只支持RGB frames 和kinetics\ucf101数据集
 
 train_transforms = T.Compose([
