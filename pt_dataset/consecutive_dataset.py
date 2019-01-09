@@ -102,15 +102,16 @@ class Consecutive(data.Dataset):
 
         # print(len(frame_indices))
         # print(frame_indices)
+        return len(frame_indices)
 
-        video = self._frames_loader(path, frame_indices) 
-        # # T, C, H, W
-        # # print(len(video))
+        # video = self._frames_loader(path, frame_indices) 
+        # # # T, C, H, W
+        # # # print(len(video))
 
-        if self.transform is not None:
-            video = self.transform(video)
+        # if self.transform is not None:
+        #     video = self.transform(video)
         
-        return video, label
+        # return video, label
 
     def __len__(self):
         return len(self.data_list)
@@ -188,31 +189,31 @@ if __name__ == '__main__':
     sys.path.append(os.path.abspath('.'))
     # print(sys.path)
 
-    # train_set = Consecutive(dataset='ucf101', interval=2, train=False, test_mode='non_local')
-    # for i in range(len(train_set)):
-    #     if train_set[i] != 320:
-    #         print('error, length is', )
+    train_set = Consecutive(dataset='ucf101', interval=2, train=False, test_mode='non_local')
+    for i in range(len(train_set)):
+        if train_set[i] != 320:
+            print('error, length is', )
 
 
-    class I3Dscale(object):
-    # rescale piexls values in[0, 1] to [-1, 1]
-        def __init__(self):
-            return
+    # class I3Dscale(object):
+    # # rescale piexls values in[0, 1] to [-1, 1]
+    #     def __init__(self):
+    #         return
 
-        def __call__(self, data):
-            return data*2 - 1.0
+    #     def __call__(self, data):
+    #         return data*2 - 1.0
 
-    import utils.transforms as ut_transforms
-    import torchvision.transforms as T
-    train_transforms = T.Compose([
-    ut_transforms.GroupScale(256), # resize smaller edge to 256
-    ut_transforms.GroupRandomCrop(224), # randomlly crop a 224x224 patch
-    # ut_transforms.GroupRandomHorizontalFlip(),
-    ut_transforms.GroupStackToTensor(),
-    # I3Dscale()
-    ])
+    # import utils.transforms as ut_transforms
+    # import torchvision.transforms as T
+    # train_transforms = T.Compose([
+    # ut_transforms.GroupScale(256), # resize smaller edge to 256
+    # ut_transforms.GroupRandomCrop(224), # randomlly crop a 224x224 patch
+    # # ut_transforms.GroupRandomHorizontalFlip(),
+    # ut_transforms.GroupStackToTensor(),
+    # # I3Dscale()
+    # ])
 
-    train_set = Consecutive(dataset='ucf101', transform=train_transforms)
-    print('length of train dataset is :', len(train_set))
-    print('first data size is :', train_set[0][0].size())
-    print('first data is :', train_set[3][0][:, 0, :, :])
+    # train_set = Consecutive(dataset='ucf101', transform=train_transforms)
+    # print('length of train dataset is :', len(train_set))
+    # print('first data size is :', train_set[0][0].size())
+    # print('first data is :', train_set[3][0][:, 0, :, :])
