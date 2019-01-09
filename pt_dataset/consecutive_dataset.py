@@ -92,6 +92,7 @@ class Consecutive(data.Dataset):
 
         if self.train:
             frame_indices = self._get_indices(data)
+            assert len(frame_indices) == self.sample_frames//self.interval
         elif self.test_mode == 'i3d':
             frame_indices = self._get_whole_indices(data)
         elif self.test_mode == 'non_local':
@@ -99,20 +100,21 @@ class Consecutive(data.Dataset):
             frame_indices = self._get_clips_indices(data, clips_num)
         else:
             frame_indices = self._get_indices(data)
+            assert len(frame_indices) == self.sample_frames//self.interval
         
-        assert len(frame_indices) == self.sample_frames//self.interval
+        
         # print(len(frame_indices))
         # print(frame_indices)
-        # return len(frame_indices)
+        return len(frame_indices)
 
-        video = self._frames_loader(path, frame_indices) 
-        # # T, C, H, W
-        # # print(len(video))
+        # video = self._frames_loader(path, frame_indices) 
+        # # # T, C, H, W
+        # # # print(len(video))
 
-        if self.transform is not None:
-            video = self.transform(video)
+        # if self.transform is not None:
+        #     video = self.transform(video)
         
-        return video, label
+        # return video, label
 
     def __len__(self):
         return len(self.data_list)
@@ -190,11 +192,12 @@ if __name__ == '__main__':
     sys.path.append(os.path.abspath('.'))
     # print(sys.path)
 
-    train_set = Consecutive(dataset='ucf101', interval=2, train=True, test_mode='non_local')
+    train_set = Consecutive(dataset='ucf101', interval=2, train=False, test_mode='non_local')
     print(len(train_set))
-    for i in range(len(train_set)-1, -1, -1):
+    for i in range(len(train_set)):
         print(i)
-        train_set[i]
+        if train_set[i] != 320 :
+            print('error for length =', train_set[i])
 
 
     # class I3Dscale(object):
