@@ -70,7 +70,7 @@ class GroupNormalize(object):
         self.worker = torchvision.transforms.Normalize(mean, std)
 
     def __call__(self, img_group):
-        assert isinstance(img_group[0], torch.tensor), 'input must be list of tensor image'
+        assert isinstance(img_group[0], torch.Tensor), 'input must be list of tensor image'
 
         return [self.worker(img) for img in img_group]
 
