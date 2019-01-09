@@ -105,16 +105,16 @@ class Consecutive(data.Dataset):
         
         # print(len(frame_indices))
         # print(frame_indices)
-        return len(frame_indices)
+        # return len(frame_indices)
 
-        # video = self._frames_loader(path, frame_indices) 
-        # # # T, C, H, W
-        # # # print(len(video))
+        video = self._frames_loader(path, frame_indices) 
+        # # T, C, H, W
+        # # print(len(video))
 
-        # if self.transform is not None:
-        #     video = self.transform(video)
+        if self.transform is not None:
+            video = self.transform(video)
         
-        # return video, label
+        return video, label
 
     def __len__(self):
         return len(self.data_list)
