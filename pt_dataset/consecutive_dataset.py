@@ -193,6 +193,7 @@ if __name__ == '__main__':
     train_set = Consecutive(dataset='ucf101', interval=2, train=True, test_mode='non_local')
     print(len(train_set))
     for i in range(len(train_set)):
+        print(i)
         train_set[i]
 
 
