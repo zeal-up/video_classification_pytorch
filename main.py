@@ -16,7 +16,7 @@ from opts import parser
 
 
 torch.backends.cudnn.enabled = True
-torch.backends.cudnn.benchmark = False
+torch.backends.cudnn.benchmark = True
 
 args = parser.parse_args()
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
