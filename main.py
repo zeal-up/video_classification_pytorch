@@ -8,10 +8,8 @@ import torch.nn.parallel
 import torch.backends.cudnn as cudnn
 import torch.optim
 from torch.nn.utils import clip_grad_norm
+import numpy as np 
 
-from pt_dataset.tsndataset import TSNDataSet
-from models.tsn_model.models import TSN
-from utils.transforms import *
 from utils.Trainer import Trainer_cls
 from utils.Plot import Visdom_Plot
 from opts import parser
@@ -33,12 +31,12 @@ def main():
     viz.append_text(args_text.replace(', \'', '<br>\''), win_name='args_win')
 
 
-####### 把另外两个数据集插入config！！！！！！！！！！！！！！！！！！！！！！！！
-
     if args.model == 'tsn':
         import models.tsn_model.config as config 
     elif args.model == 'i3d':
         import models.I3D.config as config
+    elif args.model == 'non_local':
+        import models.ResI3D.config as config
 
     model = config.model
     model.to(device)

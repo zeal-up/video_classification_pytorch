@@ -1,17 +1,17 @@
 import argparse
 parser = argparse.ArgumentParser(description="PyTorch implementation of Temporal Segment Networks")
-parser.add_argument('--dataset', type=str, default='UCF101', choices=['UCF101', 'HMDB51', 'KINETICS'])
+parser.add_argument('--dataset', type=str, default='UCF101', choices=['ucf101', 'hmdb51', 'kinetics'])
 parser.add_argument('--modality', type=str, default='RGB', choices=['RGB', 'Flow', 'RGBDiff'])
 parser.add_argument('--split', type=int, default=1, choices=[1, 2, 3])
-parser.add_argument('--model', type=str, default='i3d', choices=['i3d', 'tsn'])
-
-# ========================= Model Configs ==========================
+parser.add_argument('--model', type=str, default='i3d', choices=['i3d', 'tsn', 'non_local'])
 parser.add_argument('--arch', type=str, default="resnet101")
+
+# ========================= TSN Configs ==========================
+
 parser.add_argument('--num_segments', type=int, default=3)
 parser.add_argument('--consensus_type', type=str, default='avg',
                     choices=['avg', 'max', 'topk', 'identity', 'rnn', 'cnn'])
 parser.add_argument('--k', type=int, default=3)
-
 parser.add_argument('--dropout', '--do', default=0.5, type=float,
                     metavar='DO', help='dropout ratio (default: 0.5)')
 parser.add_argument('--loss_type', type=str, default="nll",

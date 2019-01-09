@@ -49,6 +49,7 @@ class Trainer_cls(object):
         train_loss = AverageMeter()
         batch_time = AverageMeter()
         data_time = AverageMeter()
+        training_start_time = time.time()
         end = time.time()
         self.model.train()
         try:
@@ -92,14 +93,16 @@ class Trainer_cls(object):
                         self.viz.append_acc(train_prec5.val, x_axis, win_name='acc_win', id='train_prec5')
 
                 # log for one epoch
+            
                 self.viz.append_text(
                     'Epoch:{}====<br>'
-                    'Datatime:{:.4f}<br>'
-                    'Batchtime:{:.4f}<br>'
+                    'Datatime:{:.4f}s<br>'
+                    'Batchtime:{:.4f}s<br>'
+                    'Systemtime:{:.3e}s<br>'
                     'TrainLoss:{:.4f}<br>'
                     'TrainPrec1:{:4f}<br>'
                     'TrainPrec5:{:4f}<br>'.format(
-                        epoch+1, data_time.avg, batch_time.avg, 
+                        epoch+1, data_time.avg, batch_time.avg, time.time()-training_start_time,
                         train_loss.avg, train_prec1.avg, train_prec5.avg
                     ),
                     append=False

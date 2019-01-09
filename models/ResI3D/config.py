@@ -5,33 +5,25 @@ import torch.nn as nn
 
 import utils.transforms as ut_transforms 
 from pt_dataset.consecutive_dataset import Consecutive
-from models.I3D.I3D_model import InceptionI3d
+from models.ResI3D.i3dResnet import make_i3dResnet
 import main
 args = main.args
 
-# 暂时只支持RGB frames 和kinetics数据集
-
-class I3Dscale(object):
-    # rescale piexls values in[0, 1] to [-1, 1]
-    def __init__(self):
-        return
-
-    def __call__(self, data):
-        return data*2 - 1.0
-
+# 暂时只支持RGB frames 和kinetics\ucf101数据集
 
 train_transforms = T.Compose([
-    ut_transforms.GroupScale(256), # resize smaller edge to 256
+    ut_transforms.GroupRandomScale(size_low=256, size_high=320), # randomly resize smaller edge to [256, 320]
     ut_transforms.GroupRandomCrop(224), # randomlly crop a 224x224 patch
-    ut_transforms.GroupRandomHorizontalFlip(),
-    ut_transforms.GroupStackToTensor(),
-    I3Dscale()
+    ut_transforms.GroupToTensor(),
+    ut_transforms.GroupNormalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+    ut_transforms.StackTensor()
 ])
 
 val_transforms = T.Compose([
-    ut_transforms.GroupCenterCrop(224), # center crop 224x224 patch
-    ut_transforms.GroupStackToTensor(),
-    I3Dscale()
+    ut_transforms.GroupScale(256), # scale to 256 and do fully-convolutional
+    ut_transforms.GroupToTensor(),
+    ut_transforms.GroupNormalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+    ut_transforms.StackTensor()
 ])
 
 train_dataset = Consecutive(dataset=args.dataset, train=True, transform=train_transforms) #default 64 frames
@@ -50,7 +42,7 @@ val_loader = DataLoader(
 
 num_class = train_dataset.num_classes
 
-model = InceptionI3d(400, in_channels=3) # only RGB model avaliable right now
+model = make_i3dResnet(arch=args.arch, pretrained=True, inflat_mode=0) # only RGB model avaliable right now
 pretrained = False
 if pretrained:
     model.load_state_dict(torch.load('./models/I3D/rgb_imagenet.pt'))
