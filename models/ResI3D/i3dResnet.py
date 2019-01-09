@@ -35,7 +35,7 @@ class Unit3D(nn.Module):
         """Initializes Unit3D module."""
         super(Unit3D, self).__init__()
         
-        self._output_channels = output_channels
+        self.out_channels = output_channels
         self.kernel_size = kernel_size
         self.stride = stride
         self._use_batch_norm = use_batch_norm
@@ -45,14 +45,14 @@ class Unit3D(nn.Module):
         self.padding = padding
         
         self.conv3d = nn.Conv3d(in_channels=in_channels,
-                                out_channels=self._output_channels,
+                                out_channels=self.out_channels,
                                 kernel_size=self.kernel_size,
                                 stride=self.stride,
                                 padding=0, # we always want padding to be 0 here. We will dynamically pad based on input size in forward function
                                 bias=self._use_bias)
         
         if self._use_batch_norm:
-            self.bn = nn.BatchNorm3d(self._output_channels, eps=0.001, momentum=0.01)
+            self.bn = nn.BatchNorm3d(self.out_channels, eps=0.001, momentum=0.01)
 
     def compute_pad(self, dim, s):
         if s % self.stride[dim] == 0:
