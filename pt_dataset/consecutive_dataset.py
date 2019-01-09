@@ -170,7 +170,7 @@ class Consecutive(data.Dataset):
             if self.dataset == 'kinetics':
                 image_path = os.path.join(video_dir_path, 'image_{:05d}.jpg'.format(i))
             elif self.dataset == 'ucf101':
-                image_path = os.path.join(video_dir_path, 'frame_{:06d}.jpg'.format(i))
+                image_path = os.path.join(video_dir_path, 'frame{:06d}.jpg'.format(i))
             if os.path.exists(image_path):
                 with open(image_path, 'rb') as f:
                     with Image.open(f) as img:
