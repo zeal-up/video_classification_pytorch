@@ -188,10 +188,10 @@ if __name__ == '__main__':
     sys.path.append(os.path.abspath('.'))
     # print(sys.path)
 
-    train_set = Consecutive(dataset='ucf101', interval=2, train=False, test_mode='non_local')
-    for i in range(len(train_set)):
-        if train_set[i] != 320:
-            print('error')
+    # train_set = Consecutive(dataset='ucf101', interval=2, train=False, test_mode='non_local')
+    # for i in range(len(train_set)):
+    #     if train_set[i] != 320:
+    #         print('error, length is', )
 
 
     class I3Dscale(object):
