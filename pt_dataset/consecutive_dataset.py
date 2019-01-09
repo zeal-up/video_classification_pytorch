@@ -151,7 +151,7 @@ class Consecutive(data.Dataset):
         if num_frames <= self.sample_frames + clip_interval*clips:
             
             extand_indices = list(range(1, num_frames+1, 1))
-            while len(indices) < self.sample_frames + clip_interval*clips:
+            while len(indices) <= self.sample_frames + clip_interval*clips:
                 extand_indices.extend(range(1, num_frames+1, 1))
 
             for i in range(clips):
@@ -159,7 +159,7 @@ class Consecutive(data.Dataset):
         else:
             clip_interval = int((num_frames - self.sample_frames) // clips)
             for i in range(clips):
-                indices.extend(range(i+1+i*clip_interval, i+1+i*clip_interval+self.sample_frames, self.interval))
+                indices.extend(range(1+i*clip_interval, 1+i*clip_interval+self.sample_frames, self.interval))
                 
         return indices
             
