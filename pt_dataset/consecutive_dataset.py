@@ -215,4 +215,4 @@ if __name__ == '__main__':
     train_set = Consecutive(dataset='ucf101', transform=train_transforms)
     print('length of train dataset is :', len(train_set))
     print('first data size is :', train_set[0][0].size())
-    print('first data is :', train_set[0][0][2, 0, :, :])
+    print('first data is :', train_set[1][0][:, 0, :, :])
