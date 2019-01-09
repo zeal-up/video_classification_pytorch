@@ -212,7 +212,7 @@ if __name__ == '__main__':
     # I3Dscale()
     ])
 
-    train_set = Kinetics(transform=train_transforms)
+    train_set = Consecutive(transform=train_transforms)
     print('length of train dataset is :', len(train_set))
     print('first data size is :', train_set[0][0].size())
     print('first data is :', train_set[0][0])
