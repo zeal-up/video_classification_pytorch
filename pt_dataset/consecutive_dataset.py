@@ -207,7 +207,7 @@ if __name__ == '__main__':
     train_transforms = T.Compose([
     ut_transforms.GroupScale(256), # resize smaller edge to 256
     ut_transforms.GroupRandomCrop(224), # randomlly crop a 224x224 patch
-    ut_transforms.GroupRandomHorizontalFlip(),
+    # ut_transforms.GroupRandomHorizontalFlip(),
     ut_transforms.GroupStackToTensor(),
     # I3Dscale()
     ])
@@ -215,4 +215,4 @@ if __name__ == '__main__':
     train_set = Consecutive(dataset='ucf101', transform=train_transforms)
     print('length of train dataset is :', len(train_set))
     print('first data size is :', train_set[0][0].size())
-    print('first data is :', train_set[0][0])
+    print('first data is :', train_set[0][0][:, 0, :, :])
