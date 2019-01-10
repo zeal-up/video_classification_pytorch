@@ -72,7 +72,7 @@ def main():
         scheduler_metric='best_val_loss',
         bn_scheduler=None,
         saved_path=os.path.join('./saved_model', args.visdom_name),
-        val_interval=1
+        val_interval=args.val_interval
     )
 
 
