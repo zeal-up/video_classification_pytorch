@@ -241,6 +241,7 @@ class ResNet(nn.Module):
         x = self.layer4(x)
 
         x = self.avgpool(x)
+        x = torch.mean(x, 2).mean(2).mean(2) # B x num_classes
         x = x.view(x.size(0), -1)
         x = self.fc(x) 
 
