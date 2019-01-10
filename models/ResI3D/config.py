@@ -23,6 +23,7 @@ train_transforms = T.Compose([
 
 val_transforms = T.Compose([
     ut_transforms.GroupScale(256), # scale to 256 and do fully-convolutional
+    ut_transforms.GroupCenterCrop(256),
     ut_transforms.GroupToTensor(),
     # ut_transforms.GroupNormalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
     ut_transforms.StackTensor()
