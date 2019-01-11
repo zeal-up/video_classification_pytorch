@@ -53,8 +53,8 @@ val_loader = DataLoader(
 num_class = train_dataset.num_classes
 
 model = InceptionI3d(400, in_channels=3) # only RGB model avaliable right now
-pretrained = False
-if pretrained:
+
+if args.pretrained:
     model.load_state_dict(torch.load('./models/I3D/rgb_imagenet.pt'))
     model.replace_logits(num_class)
 else:
