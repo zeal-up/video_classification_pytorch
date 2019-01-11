@@ -39,6 +39,8 @@ def main():
         import models.I3D.config as config
     elif args.model == 'non_local':
         import models.ResI3D.config as config
+    elif args.model == 's3d':
+        import models.S3D.config as config
 
     model = config.model
     model.to(device)
