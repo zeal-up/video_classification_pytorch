@@ -3,8 +3,13 @@ parser = argparse.ArgumentParser(description="PyTorch implementation of Temporal
 parser.add_argument('--dataset', type=str, default='UCF101', choices=['ucf101', 'hmdb51', 'kinetics'])
 parser.add_argument('--modality', type=str, default='RGB', choices=['RGB', 'Flow', 'RGBDiff'])
 parser.add_argument('--split', type=int, default=1, choices=[1, 2, 3])
-parser.add_argument('--model', type=str, default='i3d', choices=['i3d', 'tsn', 'non_local'])
+parser.add_argument('--model', type=str, default='i3d', choices=['i3d', 'tsn', 'non_local', 's3d'])
 parser.add_argument('--arch', type=str, default="resnet101")
+parser.add_argument('--pretrained', type='stored_true', default=False)
+# For i3d, pretrained on ImageNet and Kinetics
+# For tsn, pretrained on ImageNet (just a 2D model)
+# For non_local, pretrained on ImageNet. (Inflat 2D kernel to 3D)
+# For s3d, load weights of i3d model's pretrained on ImageNet and Kinetics
 
 # ========================= TSN Configs ==========================
 

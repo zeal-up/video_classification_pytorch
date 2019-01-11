@@ -329,7 +329,7 @@ class InceptionI3d(nn.Module):
             logits = x.squeeze(3).squeeze(3)
         # logits is batch X time X classes, which is what we want to work with
 
-        #### max-pooling when classification
+        #### avg-pooling when classification
         logits = torch.mean(logits, 2)
         return logits
         
