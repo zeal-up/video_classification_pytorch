@@ -64,7 +64,7 @@ class Trainer_cls(object):
                     else:
                         data, target = batch_data[0], batch_data[1]
                     data, target = data.to(self.device), target.to(self.device)
-                    print(data.size())
+                    # print(data.size())
 
                     # measure data loading time
                     data_time.update(time.time() - end)
@@ -169,7 +169,7 @@ class Trainer_cls(object):
                 else:
                     data, target = batch_data[0], batch_data[1]
                 data, target = data.to(self.device), target.to(self.device)
-                print(data.size())
+                # print(data.size())
 
                 # compute output
                 output = self.model(data)

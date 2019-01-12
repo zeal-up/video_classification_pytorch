@@ -46,7 +46,7 @@ train_loader = DataLoader(
     pin_memory=True)
 
 val_loader = DataLoader(
-    val_dataset, batch_size=args.batch_size,
+    val_dataset, batch_size=1,
     shuffle=True, num_workers=args.workers,
     pin_memory=True
 )

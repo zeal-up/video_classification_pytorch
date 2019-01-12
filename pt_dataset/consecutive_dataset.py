@@ -137,7 +137,7 @@ class Consecutive(data.Dataset):
         num_frames = data_info['num_frames']
         if num_frames <= self.sample_frames:
             indices = list(range(1, num_frames+1, 1))
-            while len(indices) < self.sample_frames:
+            while len(indices) <= self.sample_frames:
                 indices.extend(range(1, num_frames+1, 1))
 
             return indices[:self.sample_frames:self.interval]
