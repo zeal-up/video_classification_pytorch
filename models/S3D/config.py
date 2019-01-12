@@ -31,7 +31,7 @@ train_transforms = T.Compose([
 
 val_transforms = T.Compose([
     ut_transforms.GroupScale(256),
-    ut_transforms.GroupCenterCrop(256), # full convolution in test time
+    ut_transforms.GroupCenterCrop(224), # full convolution in test time
     ut_transforms.GroupToTensor(),
     ut_transforms.StackTensor(),
     I3Dscale()
