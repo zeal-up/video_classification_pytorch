@@ -56,8 +56,9 @@ class Trainer_cls(object):
             for epoch in range(nepochs):
                 print('epoch{} start training'.format(epoch))
                 # self.model.train()
-                end = time.time()
+                
                 for batch, batch_data in enumerate(self.train_loader):
+                    end = time.time()
                     if loader_fn is not None:
                         data, target = loader_fn(batch_data)
                     else:
