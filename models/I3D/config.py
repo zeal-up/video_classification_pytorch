@@ -38,7 +38,7 @@ val_transforms = T.Compose([
 ])
 
 train_dataset = Consecutive(dataset=args.dataset, train=True, transform=train_transforms) #default 64 frames
-val_dataset = Consecutive(dataset=args.dataset, train=False, transform=val_transforms)
+val_dataset = Consecutive(dataset=args.dataset, train=False, transform=val_transforms, test_mode='else')
 
 train_loader = DataLoader(
     train_dataset, batch_size=args.batch_size, 
