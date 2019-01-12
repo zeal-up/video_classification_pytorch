@@ -30,6 +30,7 @@ train_transforms = T.Compose([
 ])
 
 val_transforms = T.Compose([
+    ut_transforms.GroupScale(256),
     ut_transforms.GroupCenterCrop(224), # center crop 224x224 patch
     ut_transforms.GroupToTensor(),
     ut_transforms.StackTensor(),
