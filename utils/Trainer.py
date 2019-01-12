@@ -56,6 +56,7 @@ class Trainer_cls(object):
             for epoch in range(nepochs):
                 print('epoch{} start training'.format(epoch))
                 # self.model.train()
+                end = time.time()
                 for batch, batch_data in enumerate(self.train_loader):
                     if loader_fn is not None:
                         data, target = loader_fn(batch_data)
@@ -76,8 +77,7 @@ class Trainer_cls(object):
 
                     # measure elapsed time
                     batch_time.update(time.time() - end)
-                    end = time.time()
-
+                    
                     # measure accuracy and record loss
                     if batch % self.log_interval == 0:
                         prec1, prec5 = accuracy(output.data, target, topk=(1,5))

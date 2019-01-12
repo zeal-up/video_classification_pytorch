@@ -29,13 +29,23 @@ train_transforms = T.Compose([
     I3Dscale()
 ])
 
+# val_transforms = T.Compose([
+#     ut_transforms.GroupScale(256),
+#     ut_transforms.GroupCenterCrop(224), # full convolution in test time
+#     ut_transforms.GroupToTensor(),
+#     ut_transforms.StackTensor(),
+#     I3Dscale()
+# ])
+
 val_transforms = T.Compose([
-    ut_transforms.GroupScale(256),
-    ut_transforms.GroupCenterCrop(224), # full convolution in test time
+    ut_transforms.GroupScale(256), # resize smaller edge to 256
+    ut_transforms.GroupRandomCrop(224), # randomlly crop a 224x224 patch
+    ut_transforms.GroupRandomHorizontalFlip(),
     ut_transforms.GroupToTensor(),
     ut_transforms.StackTensor(),
     I3Dscale()
 ])
+
 
 train_dataset = Consecutive(dataset=args.dataset, train=True, transform=train_transforms) #default 64 frames
 val_dataset = Consecutive(dataset=args.dataset, train=False, transform=val_transforms)
