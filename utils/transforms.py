@@ -5,7 +5,7 @@ import numpy as np
 import numbers
 import math
 import torch
-
+ 
 
 class GroupRandomCrop(object):
     def __init__(self, size):
@@ -84,8 +84,8 @@ class GroupScale(object):
     interpolation: Default: PIL.Image.BILINEAR
     """
 
-    def __init__(self, size):
-        self.worker = torchvision.transforms.Resize(size)
+    def __init__(self, size, interpolation=Image.BILINEAR):
+        self.worker = torchvision.transforms.Resize(size, interpolation)
 
     def __call__(self, img_group):
         return [self.worker(img) for img in img_group]

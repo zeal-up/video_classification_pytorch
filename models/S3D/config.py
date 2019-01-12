@@ -21,8 +21,8 @@ class I3Dscale(object):
 
 
 train_transforms = T.Compose([
-    # ut_transforms.GroupScale(256), # resize smaller edge to 256
-    # ut_transforms.GroupRandomCrop(224), # randomlly crop a 224x224 patch
+    ut_transforms.GroupScale(256), # resize smaller edge to 256
+    ut_transforms.GroupRandomCrop(224), # randomlly crop a 224x224 patch
     ut_transforms.GroupRandomHorizontalFlip(),
     ut_transforms.GroupToTensor(),
     ut_transforms.StackTensor(),
@@ -47,7 +47,7 @@ val_transforms = T.Compose([
 ])
 
 
-train_dataset = Consecutive(dataset=args.dataset, train=True, transform=train_transforms) #default 64 frames
+train_dataset = Consecutive(dataset=args.dataset, train=False, transform=train_transforms) #default 64 frames
 val_dataset = Consecutive(dataset=args.dataset, train=False, transform=val_transforms)
 
 train_loader = DataLoader(
