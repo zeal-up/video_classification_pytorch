@@ -45,7 +45,7 @@ parser.add_argument('--visdom-port', default=8197, type=int)
 parser.add_argument('--val-interval', default=5, type=int)
 
 # ========================= Runtime Configs ==========================
-parser.add_argument('-j', '--workers', default=4, type=int, metavar='N',
+parser.add_argument('-j', '--workers', default=0, type=int, metavar='N',
                     help='number of data loading workers (default: 4)')
 parser.add_argument('--resume', default='', type=str, metavar='PATH',
                     help='path to latest checkpoint (default: none)')
