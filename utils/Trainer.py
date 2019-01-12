@@ -161,7 +161,7 @@ class Trainer_cls(object):
         val_loss = AverageMeter()
         self.model.eval()
         with torch.no_grad():
-            for batch_data in test_loader:
+            for batch, batch_data in enumerate(test_loader):
                 
                 if loader_fn is not None:
                     data, target = loader_fn(batch_data)
