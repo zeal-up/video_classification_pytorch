@@ -50,7 +50,7 @@ def main():
     # define loss function (criterion) and optimizer
     criterion = torch.nn.CrossEntropyLoss().to(device)
     optimizer = torch.optim.SGD(model.parameters(), args.lr, momentum=args.momentum, weight_decay=args.weight_decay)
-    lr_schedular = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer)
+    lr_schedular = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, factor=0.2)
 
     
     print('prepare finished, start training')
@@ -71,7 +71,7 @@ def main():
         test_loader=val_loader,
         loader_fn=None,
         lr_scheduler=lr_schedular,
-        scheduler_metric='best_val_loss',
+        scheduler_metric='best_val_acc',
         bn_scheduler=None,
         saved_path=os.path.join('./saved_model', args.visdom_name),
         val_interval=args.val_interval

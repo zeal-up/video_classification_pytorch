@@ -27,7 +27,7 @@ class Trainer_cls(object):
 
     def train(self, nepochs, test_loader=None, loader_fn=None, lr_scheduler=None, \
                 scheduler_metric='best_train_loss', bn_scheduler=None, 
-                saved_path='checkepoints/', val_interval=5):
+                saved_path='checkepoints/', val_interval=1):
         '''
         loader_fn : 可以用来指定如何使用train_loader 和 test_loader, 默认loader[0]=data, loader[1]=target
                 batch_data = next(iter(train_loader))
@@ -136,7 +136,7 @@ class Trainer_cls(object):
                         lr_scheduler.step(getattr(self, scheduler_metric))
                     if lr != self.optimizer.param_groups[0]['lr']:
                         lr = self.optimizer.param_groups[0]['lr']
-                        self.viz.append_text('\n lr change to {} in epoch {}'.format(lr, epoch))
+                        self.viz.append_text('\n lr change to {} in epoch {}'.format(lr, epoch), win_name='lr_schedule')
 
                 # adjust batchnormalization momentum
                 if bn_scheduler is not None:
