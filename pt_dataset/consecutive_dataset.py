@@ -47,7 +47,7 @@ ps：目前只支持kinetic 和 ucf101 的rgb数据载入
 '''
 
 class Consecutive(data.Dataset):
-    def __init__(self, dataset='kinetics', split=1, train=True, 
+    def __init__(self, dataset='kinetics400', split=1, train=True, 
                  sample_frames=64, interval=1, transform=None, test_mode='i3d'):
         '''
         Kinetics: root = './videos_dataset/Kinetics/kinetics_400_jpgs'
@@ -60,9 +60,12 @@ class Consecutive(data.Dataset):
 
         # read data list file
         
-        if dataset == 'kinetics':
+        if dataset == 'kinetics400':
             self.root = './videos_dataset/Kinetics/kinetics_400_jpgs' 
             datalist_file = 'train_datalist.json' if train else 'val_datalist.json'
+        elif dataset == 'kinetics200':
+            self.root = './videos_dataset/Kinetics/kinetics_200_jpgs' 
+            datalist_file = 'train_datalist_200.json' if train else 'val_datalist_200.json'
         elif dataset == 'ucf101':
             self.root = './videos_dataset/UCF101/'
             datalist_file = 'trainlist{:02d}.json'.format(split) if train else 'testlist{:02d}.json'.format(split)
