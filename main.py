@@ -50,7 +50,7 @@ def main():
     # define loss function (criterion) and optimizer
     criterion = torch.nn.CrossEntropyLoss().to(device)
     optimizer = torch.optim.SGD(model.parameters(), args.lr, momentum=args.momentum, weight_decay=args.weight_decay)
-    lr_schedular = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, factor=0.2)
+    lr_schedular = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='max', factor=0.2)
 
     
     print('prepare finished, start training')
