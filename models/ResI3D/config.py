@@ -30,7 +30,7 @@ val_transforms = T.Compose([
 ])
 
 train_dataset = Consecutive(dataset=args.dataset, train=True, interval=2, transform=train_transforms) #default 64/2 = 32 frames
-val_dataset = Consecutive(dataset=args.dataset, train=False, interval=2, transform=val_transforms, test_mode='non_local')
+val_dataset = Consecutive(dataset=args.dataset, train=False, interval=2, transform=val_transforms, test_mode='else') # also 32 frames
 
 train_loader = DataLoader(
     train_dataset, batch_size=args.batch_size, 
@@ -45,7 +45,7 @@ val_loader = DataLoader(
 
 num_class = train_dataset.num_classes
 
-model = make_i3dResnet(arch=args.arch, pretrained=True, inflat_mode=1) # only RGB model avaliable right now
+model = make_i3dResnet(arch=args.arch) # only RGB model avaliable right now
 
 model.replace_logits(num_class)
 
