@@ -5,27 +5,27 @@ import torch.nn.functional as F
 import os
 import sys
 import numpy as np
-
-from utils.module_3d import Unit3D, MaxPool3dSamePadding, STConv3d
+sys.path.append(os.path.abspath('.'))
+from utils.utils_3d import Unit3D, MaxPool3dSamePadding, STConv3d
 
 class InceptionModuleI3D(nn.Module):
     def __init__(self, in_channels, out_channels, name):
         super(InceptionModuleI3D, self).__init__()
 
-        self.b0 = Unit3D(in_channels=in_channels, output_channels=out_channels[0], kernel_shape=[1, 1, 1], padding=0,
-                         name=name+'/Branch_0/Conv3d_0a_1x1')
-        self.b1a = Unit3D(in_channels=in_channels, output_channels=out_channels[1], kernel_shape=[1, 1, 1], padding=0,
-                          name=name+'/Branch_1/Conv3d_0a_1x1')
-        self.b1b = Unit3D(in_channels=out_channels[1], output_channels=out_channels[2], kernel_shape=[3, 3, 3],
-                          name=name+'/Branch_1/Conv3d_0b_3x3')
-        self.b2a = Unit3D(in_channels=in_channels, output_channels=out_channels[3], kernel_shape=[1, 1, 1], padding=0,
-                          name=name+'/Branch_2/Conv3d_0a_1x1')
-        self.b2b = Unit3D(in_channels=out_channels[3], output_channels=out_channels[4], kernel_shape=[3, 3, 3],
-                          name=name+'/Branch_2/Conv3d_0b_3x3')
+        self.b0 = Unit3D(in_channels=in_channels, out_channels=out_channels[0], kernel_size=[1, 1, 1],
+                         name=name+'/Branch_0/Conv3d_0a_1x1x1')
+        self.b1a = Unit3D(in_channels=in_channels, out_channels=out_channels[1], kernel_size=[1, 1, 1],
+                          name=name+'/Branch_1/Conv3d_0a_1x1x1')
+        self.b1b = Unit3D(in_channels=out_channels[1], out_channels=out_channels[2], kernel_size=[3, 3, 3],
+                          name=name+'/Branch_1/Conv3d_0b_3x3x3')
+        self.b2a = Unit3D(in_channels=in_channels, out_channels=out_channels[3], kernel_size=[1, 1, 1],
+                          name=name+'/Branch_2/Conv3d_0a_1x1x1')
+        self.b2b = Unit3D(in_channels=out_channels[3], out_channels=out_channels[4], kernel_size=[3, 3, 3],
+                          name=name+'/Branch_2/Conv3d_0b_3x3x3')
         self.b3a = MaxPool3dSamePadding(kernel_size=[3, 3, 3],
                                 stride=(1, 1, 1), padding=0)
-        self.b3b = Unit3D(in_channels=in_channels, output_channels=out_channels[5], kernel_shape=[1, 1, 1], padding=0,
-                          name=name+'/Branch_3/Conv3d_0b_1x1')
+        self.b3b = Unit3D(in_channels=in_channels, out_channels=out_channels[5], kernel_size=[1, 1, 1],
+                          name=name+'/Branch_3/Conv3d_0b_1x1x1')
         self.name = name
 
     def forward(self, x):    
@@ -39,23 +39,23 @@ class InceptionModuleS3D(nn.Module):
     def __init__(self, in_channels, out_channels, name):
         super(InceptionModuleS3D, self).__init__()
 
-        self.b0 = Unit3D(in_channels=in_channels, output_channels=out_channels[0], kernel_shape=[1, 1, 1], padding=0,
-                         name=name+'/Branch_0/Conv3d_0a_1x1')
+        self.b0 = Unit3D(in_channels=in_channels, out_channels=out_channels[0], kernel_size=[1, 1, 1],
+                         name=name+'/Branch_0/Conv3d_0a_1x1x1')
 
-        self.b1a = Unit3D(in_channels=in_channels, output_channels=out_channels[1], kernel_shape=[1, 1, 1], padding=0,
-                          name=name+'/Branch_1/Conv3d_0a_1x1')
-        self.b1b = STConv3d(in_channels=out_channels[1], output_channels=out_channels[2], kernel_shape=3,
-                          name=name+'/Branch_1/Conv3d_0b_3x3')
+        self.b1a = Unit3D(in_channels=in_channels, out_channels=out_channels[1], kernel_size=[1, 1, 1],
+                          name=name+'/Branch_1/Conv3d_0a_1x1x1')
+        self.b1b = STConv3d(in_channels=out_channels[1], out_channels=out_channels[2], kernel_size=3,
+                          name=name+'/Branch_1/Conv3d_0b_3x3x3')
 
-        self.b2a = Unit3D(in_channels=in_channels, output_channels=out_channels[3], kernel_shape=[1, 1, 1], padding=0,
-                          name=name+'/Branch_2/Conv3d_0a_1x1')
-        self.b2b = STConv3d(in_channels=out_channels[3], output_channels=out_channels[4], kernel_shape=3,
-                          name=name+'/Branch_2/Conv3d_0b_3x3')
+        self.b2a = Unit3D(in_channels=in_channels, out_channels=out_channels[3], kernel_size=[1, 1, 1],
+                          name=name+'/Branch_2/Conv3d_0a_1x1x1')
+        self.b2b = STConv3d(in_channels=out_channels[3], out_channels=out_channels[4], kernel_size=3,
+                          name=name+'/Branch_2/Conv3d_0b_3x3x3')
 
         self.b3a = MaxPool3dSamePadding(kernel_size=[3, 3, 3],
                                 stride=(1, 1, 1), padding=0)
-        self.b3b = Unit3D(in_channels=in_channels, output_channels=out_channels[5], kernel_shape=[1, 1, 1], padding=0,
-                          name=name+'/Branch_3/Conv3d_0b_1x1')
+        self.b3b = Unit3D(in_channels=in_channels, out_channels=out_channels[5], kernel_size=[1, 1, 1],
+                          name=name+'/Branch_3/Conv3d_0b_1x1x1')
         self.name = name
 
     def forward(self, x):    
@@ -67,21 +67,9 @@ class InceptionModuleS3D(nn.Module):
 
 
 class InceptionS3d(nn.Module):
-    """Inception-v1 I3D architecture.
-    The model is introduced in:
-        Quo Vadis, Action Recognition? A New Model and the Kinetics Dataset
-        Joao Carreira, Andrew Zisserman
-        https://arxiv.org/pdf/1705.07750v1.pdf.
-    See also the Inception architecture, introduced in:
-        Going deeper with convolutions
-        Christian Szegedy, Wei Liu, Yangqing Jia, Pierre Sermanet, Scott Reed,
-        Dragomir Anguelov, Dumitru Erhan, Vincent Vanhoucke, Andrew Rabinovich.
-        http://arxiv.org/pdf/1409.4842v1.pdf.
     """
-
-    # Endpoints of the model in order. During construction, all the endpoints up
-    # to a designated `final_endpoint` are returned in a dictionary as the
-    # second return value.
+    Inception-v1 S3D architecture.
+    """
     VALID_ENDPOINTS = (
         'Conv3d_1a_7x7',
         'MaxPool3d_2a_3x3',
@@ -103,22 +91,12 @@ class InceptionS3d(nn.Module):
         'Predictions',
     )
 
-    def __init__(self, num_classes=400, in_channels=3, name='inception_i3d'):
+    def __init__(self, num_classes=400, in_channels=3, name='s3d'):
         """Initializes I3D model instance.
         Args:
           num_classes: The number of outputs in the logit layer (default 400, which
               matches the Kinetics dataset).
-          spatial_squeeze: Whether to squeeze the spatial dimensions for the logits
-              before returning (default True).
-          final_endpoint: The model contains many possible endpoints.
-              `final_endpoint` specifies the last endpoint for the model to be built
-              up to. In addition to the output at `final_endpoint`, all the outputs
-              at endpoints up to `final_endpoint` will also be returned, in a
-              dictionary. `final_endpoint` must be one of
-              InceptionI3d.VALID_ENDPOINTS (default 'Logits').
           name: A string (optional). The name of this module.
-        Raises:
-          ValueError: if `final_endpoint` is not recognized.
         """
 
         super(InceptionS3d, self).__init__() 
@@ -127,24 +105,22 @@ class InceptionS3d(nn.Module):
 
         self.end_points = {}
         end_point = 'Conv3d_1a_7x7'
-        self.end_points[end_point] = STConv3d(in_channels=in_channels, output_channels=64, kernel_shape=7,
+        self.end_points[end_point] = STConv3d(in_channels=in_channels, out_channels=64, kernel_size=7,
                                               stride=2, name=name+end_point)
         
         end_point = 'MaxPool3d_2a_3x3'
-        self.end_points[end_point] = MaxPool3dSamePadding(kernel_size=[1, 3, 3], stride=(1, 2, 2),
-                                                             padding=0)
+        self.end_points[end_point] = MaxPool3dSamePadding(kernel_size=[1, 3, 3], stride=(1, 2, 2))
         
         end_point = 'Conv3d_2b_1x1'
-        self.end_points[end_point] = Unit3D(in_channels=64, output_channels=64, kernel_shape=[1, 1, 1], padding=0,
+        self.end_points[end_point] = Unit3D(in_channels=64, out_channels=64, kernel_size=[1, 1, 1], padding=0,
                                        name=name+end_point)
         
         end_point = 'Conv3d_2c_3x3'
-        self.end_points[end_point] = STConv3d(in_channels=64, output_channels=192, kernel_shape=3,
+        self.end_points[end_point] = STConv3d(in_channels=64, out_channels=192, kernel_size=3,
                                        name=name+end_point)
 
         end_point = 'MaxPool3d_3a_3x3'
-        self.end_points[end_point] = MaxPool3dSamePadding(kernel_size=[1, 3, 3], stride=(1, 2, 2),
-                                                             padding=0)
+        self.end_points[end_point] = MaxPool3dSamePadding(kernel_size=[1, 3, 3], stride=(1, 2, 2))
         
         end_point = 'Mixed_3b'
         self.end_points[end_point] = InceptionModuleS3D(192, [64,96,128,16,32,32], name+end_point)
@@ -153,8 +129,7 @@ class InceptionS3d(nn.Module):
         self.end_points[end_point] = InceptionModuleS3D(256, [128,128,192,32,96,64], name+end_point)
 
         end_point = 'MaxPool3d_4a_3x3'
-        self.end_points[end_point] = MaxPool3dSamePadding(kernel_size=[3, 3, 3], stride=(2, 2, 2),
-                                                             padding=0)
+        self.end_points[end_point] = MaxPool3dSamePadding(kernel_size=[3, 3, 3], stride=(2, 2, 2))
 
         end_point = 'Mixed_4b'
         self.end_points[end_point] = InceptionModuleS3D(128+192+96+64, [192,96,208,16,48,64], name+end_point)
@@ -172,8 +147,7 @@ class InceptionS3d(nn.Module):
         self.end_points[end_point] = InceptionModuleS3D(112+288+64+64, [256,160,320,32,128,128], name+end_point)
 
         end_point = 'MaxPool3d_5a_2x2'
-        self.end_points[end_point] = MaxPool3dSamePadding(kernel_size=[2, 2, 2], stride=(2, 2, 2),
-                                                             padding=0)
+        self.end_points[end_point] = MaxPool3dSamePadding(kernel_size=[2, 2, 2], stride=(2, 2, 2))
 
         end_point = 'Mixed_5b'
         self.end_points[end_point] = InceptionModuleS3D(256+320+128+128, [256,160,320,32,128,128], name+end_point)
@@ -185,12 +159,12 @@ class InceptionS3d(nn.Module):
         self.avg_pool = nn.AvgPool3d(kernel_size=[2, 7, 7],
                                      stride=(1, 1, 1))
         self.dropout = nn.Dropout(0.5)
-        self.logits = Unit3D(in_channels=384+384+128+128, output_channels=self._num_classes,
-                             kernel_shape=[1, 1, 1],
+        self.logits = Unit3D(in_channels=384+384+128+128, out_channels=self._num_classes,
+                             kernel_size=[1, 1, 1],
                              padding=0,
                              activation_fn=None,
-                             use_batch_norm=False,
-                             use_bias=True,
+                             bn=False,
+                             bias=True,
                              name='logits')
 
         self.build()
@@ -198,12 +172,12 @@ class InceptionS3d(nn.Module):
 
     def replace_logits(self, num_classes):
         self._num_classes = num_classes
-        self.logits = Unit3D(in_channels=384+384+128+128, output_channels=self._num_classes,
-                             kernel_shape=[1, 1, 1],
+        self.logits = Unit3D(in_channels=384+384+128+128, out_channels=self._num_classes,
+                             kernel_size=[1, 1, 1],
                              padding=0,
                              activation_fn=None,
-                             use_batch_norm=False,
-                             use_bias=True,
+                             bn=False,
+                             bias=True,
                              name='logits')
         
     
@@ -223,40 +197,9 @@ class InceptionS3d(nn.Module):
         x = torch.mean(x, 2)
         return x
 
-def make_inception_s3d(pretrained=False, num_classes=400):
+def make_inception_s3d(num_classes=400):
     # pretrained model is I3D model
     model = InceptionS3d()
-    if pretrained:
-        print('loading pretrained I3D model for S3D model,\npretrained on Imagenet and Kinetics')
-        target_weights = torch.load('./models/I3D/rgb_imagenet.pt')
-        # this pretrained model is pretrain on ImageNet and Kinetics
-        own_state = model.state_dict()
-        
-        for name, param in target_weights.items():
-            # print(name, type(param))
-            if name in own_state:
-                if isinstance(param, torch.Tensor):
-                    param = param.data
-                    try:
-                        if len(param.size())==5 and param.size()[3] in [3, 7]:
-                            own_state[name][:,:,0,:,:] = torch.mean(param, 2)
-                        else:
-                            own_state[name].copy_(param)
-                        # print(name)
-                    except Exception:
-                        raise RuntimeError(
-                            'while copying the parameter named {}.\
-                            whose dimensions in the model are {} and\
-                            whose dimensions in the checkpoint are {}.\
-                            '.format(name, own_state[name].size(), param.size())
-                            )
-
-            else:
-                print('{} meets error in locating parameters'.format(name))
-
-        missing = set(own_state.keys()) - set(target_weights.keys())
-        print('{} keys are not holded in target checkpoints'.format(len(missing)))
-        # print(missing)
         
     if num_classes != 400:
         model.replace_logits(num_classes)
@@ -265,8 +208,12 @@ def make_inception_s3d(pretrained=False, num_classes=400):
 
 
 if __name__ == '__main__':
-    model = make_inception_s3d(pretrained=True, num_classes=101)
-    data = torch.Tensor(2, 3, 64, 224, 224)
+    model = make_inception_s3d(num_classes=101)
+    from utils.torchsummary import model_parameter_number, summary
+    model_parameter_number(model)
+    print(model)
+    summary(model, (3, 32, 224, 224))
+    data = torch.Tensor(2, 3, 32, 224, 224)
     output = model(data)
 
     print(output.size())
